@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sacral Spinal Cord Cross Section
+     Key: Small cord, very large gray:white ratio, ONLY gracilis,
+     prominent anterior horns (S2-S4 parasympathetic outflow),
+     lateral horn at S2-S4 (parasympathetic nucleus) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 15 180 190" width="400" height="400">
+  <defs>
+    <radialGradient id="sg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5f0e8"/><stop offset="100%" stop-color="#e0d8cc"/>
+    </radialGradient>
+  </defs>
+  <text x="150" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#666">SACRAL (S1-S5)</text>
+  <!-- Small, round cord -->
+  <ellipse cx="150" cy="115" rx="38" ry="45" fill="url(#sg)" stroke="#b0a89c" stroke-width="1.5"/>
+  <!-- Gray matter dominates — large gray:white ratio -->
+  <path d="M 150 82 Q 143 90 136 96 Q 128 104 132 115 Q 136 126 128 138 Q 124 146 130 152 Q 140 160 150 160 Q 160 160 170 152 Q 176 146 172 138 Q 164 126 168 115 Q 172 104 164 96 Q 157 90 150 82 Z" fill="#c4beb4" stroke="#a09888" stroke-width="0.8"/>
+  <circle cx="150" cy="115" r="2" fill="#8aaab4"/>
+  <!-- Parasympathetic lateral horn S2-S4 -->
+  <circle cx="130" cy="120" r="3.5" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.5" opacity="0.8"/>
+  <circle cx="170" cy="120" r="3.5" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.5" opacity="0.8"/>
+  <text x="113" y="124" font-size="5" fill="#5B9F6B" font-weight="600">PNS</text>
+  <!-- Only gracilis (far below T6) -->
+  <path d="M 146 78 Q 150 72 154 78 L 154 94 Q 150 96 146 94 Z" fill="#4A7A8A" opacity="0.9"/>
+  <text x="150" y="70" text-anchor="middle" font-size="5.5" fill="#4A7A8A" font-weight="700">Gracilis only</text>
+  <!-- Thin white matter rim with tracts -->
+  <path d="M 132 96 Q 126 106 130 122 Q 134 126 136 116 Q 134 106 132 96 Z" fill="#7B68AE" opacity="0.6"/>
+  <text x="116" y="106" font-size="5" fill="#7B68AE">LCST</text>
+  
+  <text x="150" y="178" text-anchor="middle" font-size="5.5" fill="#999">S2-S4 parasympathetic nucleus (pelvic splanchnic)</text>
+  <text x="150" y="186" text-anchor="middle" font-size="5.5" fill="#999">Large gray:white ratio, Onuf's nucleus (external sphincters)</text>
+</svg>

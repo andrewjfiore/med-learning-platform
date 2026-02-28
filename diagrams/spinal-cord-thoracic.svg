@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thoracic Spinal Cord Cross Section
+     Key differences: Smaller, rounder cord. Both gracilis + cuneatus.
+     Small anterior horns (no limb LMNs). Lateral horn present (T1-L2 sympathetic).
+     Clarke's nucleus present (C8-L2). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 15 180 190" width="400" height="400">
+  <defs>
+    <radialGradient id="tg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5f0e8"/><stop offset="100%" stop-color="#e0d8cc"/>
+    </radialGradient>
+  </defs>
+  <text x="150" y="27" text-anchor="middle" font-size="8" font-weight="700" fill="#666">THORACIC (T1-T12)</text>
+  <!-- Smaller, rounder cord -->
+  <ellipse cx="150" cy="115" rx="48" ry="58" fill="url(#tg)" stroke="#b0a89c" stroke-width="1.5"/>
+  <!-- Gray matter - small anterior horns, lateral horn present -->
+  <path d="M 150 72 Q 142 82 134 90 Q 128 98 132 110 Q 136 122 130 134 Q 126 142 130 148 Q 140 156 150 156 Q 160 156 170 148 Q 174 142 170 134 Q 164 122 168 110 Q 172 98 166 90 Q 158 82 150 72 Z" fill="#c4beb4" stroke="#a09888" stroke-width="0.8"/>
+  <circle cx="150" cy="115" r="2.5" fill="#8aaab4"/>
+  <!-- Lateral horn (sympathetic outflow T1-L2) -->
+  <circle cx="127" cy="118" r="4" fill="#E8A060" stroke="#D08040" stroke-width="0.5" opacity="0.7"/>
+  <circle cx="173" cy="118" r="4" fill="#E8A060" stroke="#D08040" stroke-width="0.5" opacity="0.7"/>
+  <text x="112" y="122" font-size="5" fill="#D08040" font-weight="600">IML</text>
+  <!-- Clarke's nucleus -->
+  <circle cx="140" cy="105" r="3" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.5" opacity="0.6"/>
+  <circle cx="160" cy="105" r="3" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.5" opacity="0.6"/>
+  <text x="150" y="100" text-anchor="middle" font-size="4.5" fill="#5B9F6B">Clarke's</text>
+  
+  <!-- Tracts (same layout, smaller) -->
+  <path d="M 142 68 Q 150 60 158 68 L 160 95 Q 150 98 140 95 Z" fill="#5B8A9A" opacity="0.8"/>
+  <text x="150" y="58" text-anchor="middle" font-size="6" fill="#5B8A9A" font-weight="700">DCML</text>
+  
+  <path d="M 128 96 Q 122 110 126 128 Q 132 132 134 120 Q 130 108 128 96 Z" fill="#7B68AE" opacity="0.8"/>
+  <path d="M 172 96 Q 178 110 174 128 Q 168 132 166 120 Q 170 108 172 96 Z" fill="#7B68AE" opacity="0.8"/>
+  
+  <text x="150" y="188" text-anchor="middle" font-size="6" fill="#999">Lateral horn (IML) = sympathetic outflow</text>
+  <text x="150" y="196" text-anchor="middle" font-size="5" fill="#999">Clarke's nucleus (C8-L2) = dorsal SCT origin</text>
+</svg>

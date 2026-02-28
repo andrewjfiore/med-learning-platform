@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- C1-C2 Upper Cervical Cross Section
+     Key: Very large cord, pyramidal decussation visible at C1,
+     spinal nucleus of V extends here, large DCML with both fasciculi,
+     accessory nerve (CN XI) fibers exit laterally -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 5 220 210" width="400" height="400">
+  <defs>
+    <radialGradient id="ug" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5f0e8"/><stop offset="100%" stop-color="#e0d8cc"/>
+    </radialGradient>
+  </defs>
+  <text x="150" y="18" text-anchor="middle" font-size="8" font-weight="700" fill="#666">UPPER CERVICAL (C1-C2) / CERVICOMEDULLARY JUNCTION</text>
+  <!-- Large, slightly flattened -->
+  <ellipse cx="150" cy="115" rx="65" ry="78" fill="url(#ug)" stroke="#b0a89c" stroke-width="1.5"/>
+  <!-- Gray matter -->
+  <path d="M 150 58 Q 138 72 126 84 Q 114 96 118 112 Q 124 130 112 148 Q 106 160 114 168 Q 132 180 150 180 Q 168 180 186 168 Q 194 160 188 148 Q 176 130 182 112 Q 186 96 174 84 Q 162 72 150 58 Z" fill="#c4beb4" stroke="#a09888" stroke-width="0.8"/>
+  <circle cx="150" cy="112" r="3" fill="#8aaab4"/>
+  <!-- Pyramidal decussation zone (at caudal medulla/C1) -->
+  <rect x="130" y="100" width="40" height="20" rx="5" fill="#7B68AE" opacity="0.15" stroke="#7B68AE" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <text x="150" y="114" text-anchor="middle" font-size="5" fill="#7B68AE" font-weight="700">Pyramidal decussation</text>
+  <!-- DCML -->
+  <path d="M 138 54 Q 150 44 162 54 L 164 92 Q 150 96 136 92 Z" fill="#5B8A9A" opacity="0.8"/>
+  <text x="150" y="42" text-anchor="middle" font-size="6" fill="#5B8A9A" font-weight="700">DCML</text>
+  <!-- Spinal nucleus of V (extends to C2) -->
+  <ellipse cx="118" cy="88" rx="8" ry="12" fill="#C97070" opacity="0.3" stroke="#C97070" stroke-width="0.5"/>
+  <text x="100" y="88" font-size="4.5" fill="#C97070" font-weight="600">Sp V</text>
+  <!-- CN XI fibers -->
+  <path d="M 114 150 Q 98 148 85 150" fill="none" stroke="#F6C547" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="75" y="148" font-size="5" fill="#9A7A10" font-weight="600">CN XI</text>
+  
+  <text x="150" y="198" text-anchor="middle" font-size="5.5" fill="#999">Pyramidal decussation occurs here (CST crossing)</text>
+  <text x="150" y="206" text-anchor="middle" font-size="5.5" fill="#999">Spinal nucleus of V extends to C2, CN XI exits laterally</text>
+</svg>

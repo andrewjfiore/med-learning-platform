@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lumbar Spinal Cord Cross Section
+     Key differences: Large cord (lumbar enlargement). Only gracilis (no cuneatus — below T6).
+     Large anterior horns (leg LMNs). No lateral horn below L2. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 10 200 200" width="400" height="400">
+  <defs>
+    <radialGradient id="lg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5f0e8"/><stop offset="100%" stop-color="#e0d8cc"/>
+    </radialGradient>
+  </defs>
+  <text x="150" y="22" text-anchor="middle" font-size="8" font-weight="700" fill="#666">LUMBAR (L1-L5)</text>
+  <!-- Large oval for lumbar enlargement -->
+  <ellipse cx="150" cy="115" rx="58" ry="72" fill="url(#lg)" stroke="#b0a89c" stroke-width="1.5"/>
+  <!-- Gray matter - very prominent anterior horns for lower limb LMNs -->
+  <path d="M 150 62 Q 140 74 128 86 Q 116 98 120 114 Q 126 132 114 150 Q 106 162 114 170 Q 132 182 150 182 Q 168 182 186 170 Q 194 162 186 150 Q 174 132 180 114 Q 184 98 172 86 Q 160 74 150 62 Z" fill="#c4beb4" stroke="#a09888" stroke-width="0.8"/>
+  <circle cx="150" cy="115" r="3" fill="#8aaab4"/>
+  
+  <!-- DCML: ONLY gracilis (below T6 = no cuneatus!) -->
+  <path d="M 144 58 Q 150 50 156 58 L 156 95 Q 150 98 144 95 Z" fill="#4A7A8A" opacity="0.9"/>
+  <text x="150" y="48" text-anchor="middle" font-size="6" fill="#4A7A8A" font-weight="700">Gracilis only</text>
+  <text x="150" y="55" text-anchor="middle" font-size="5" fill="#999">(no cuneatus below T6)</text>
+  
+  <!-- CST - large for legs -->
+  <path d="M 122 92 Q 114 110 118 132 Q 126 138 130 122 Q 126 108 124 92 Z" fill="#7B68AE" opacity="0.8"/>
+  <path d="M 178 92 Q 186 110 182 132 Q 174 138 170 122 Q 174 108 176 92 Z" fill="#7B68AE" opacity="0.8"/>
+  <text x="100" y="108" font-size="6" fill="#7B68AE" font-weight="700">CST</text>
+  
+  <!-- STT -->
+  <path d="M 106 118 Q 100 136 106 152 Q 116 162 120 146 Q 114 130 108 118 Z" fill="#C97070" opacity="0.8"/>
+  <path d="M 194 118 Q 200 136 194 152 Q 184 162 180 146 Q 186 130 192 118 Z" fill="#C97070" opacity="0.8"/>
+  
+  <text x="150" y="200" text-anchor="middle" font-size="6" fill="#999">Large anterior horns (leg motor neurons)</text>
+</svg>

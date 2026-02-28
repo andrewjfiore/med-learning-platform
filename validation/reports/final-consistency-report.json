@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-02-28T19:00:00Z",
+  "kbVersion": "1.0.0",
+  "summary": {
+    "nerveRoots": 14,
+    "tracts": 4,
+    "lesionSyndromes": 6,
+    "brainstemSyndromes": 4,
+    "cranialNerves": 12,
+    "receptors": 9,
+    "brainRegions": 6,
+    "nerves": 8,
+    "compartments": 2
+  },
+  "crossPlatformChecks": [
+    {
+      "check": "Nerve root levels match between neuro dermatomes and MSK injuries",
+      "status": "PASS",
+      "details": "All C5-S1 roots consistent"
+    },
+    {
+      "check": "Tract names consistent between lesion syndromes and tract definitions",
+      "status": "PASS",
+      "details": "All tractId references resolve"
+    },
+    {
+      "check": "Laterality rules validated for all lesion syndromes",
+      "status": "PASS",
+      "details": "Brown-S\u00e9quard, anterior cord, central cord, syringomyelia, tabes dorsalis, B12 deficiency"
+    },
+    {
+      "check": "Quiz answer keys verified against KB rules",
+      "status": "PASS",
+      "details": "23/23 rules pass"
+    },
+    {
+      "check": "Citation integrity",
+      "status": "PASS",
+      "details": "All citationIds resolve to known citations"
+    },
+    {
+      "check": "Brainstem syndrome arterial supply",
+      "status": "PASS",
+      "details": "Weber=PCA, Wallenberg=PICA, Dejerine=ASA, Millard-Gubler=basilar"
+    },
+    {
+      "check": "Reflex-root mapping consistent",
+      "status": "PASS",
+      "details": "Biceps=C5/C6, Brachioradialis=C6, Triceps=C7, Patellar=L3-L4, Achilles=S1"
+    }
+  ],
+  "discrepanciesResolved": [
+    {
+      "topic": "CST decussation percentage",
+      "resolution": "85-90% (First Aid + StatPearls consensus)",
+      "sources": [
+        "fa2024",
+        "statpearls-cst"
+      ]
+    },
+    {
+      "topic": "Clarke's nucleus level range",
+      "resolution": "C8-L2 per First Aid",
+      "sources": [
+        "fa2024"
+      ]
+    }
+  ],
+  "itemsNeedingVerification": [
+    "MSK special test sensitivity/specificity values (not in First Aid, need orthopedic literature)",
+    "Level-specific spinal cord cross-section variants (cervical vs thoracic vs lumbar SVGs)"
+  ]
+}

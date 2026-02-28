@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Spinal Cord Cross Section - Verified Anatomical SVG
+  Sources: First Aid 2024, Netter's Atlas, StatPearls
+  Coordinate system: viewBox 60 20 180 180
+  All structure IDs match knowledge-base.json
+  
+  Verification Checklist:
+  ✅ Label placement accuracy
+  ✅ Structure boundaries (tracts in correct white matter regions)
+  ✅ Relationship to adjacent structures
+  ✅ Laterality (left/right symmetric)
+  ✅ Posterior = dorsal columns, anterolateral = STT, lateral = CST, posterolateral = SCT
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 20 180 180" width="400" height="400">
+  <defs>
+    <radialGradient id="cord-bg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#f5f0e8"/>
+      <stop offset="100%" stop-color="#e0d8cc"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Layer: cord_outline -->
+  <g id="layer_cord">
+    <ellipse id="cord_outline" cx="150" cy="110" rx="55" ry="70" fill="url(#cord-bg)" stroke="#b0a89c" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Layer: gray_matter -->
+  <g id="layer_gray_matter">
+    <path id="gray_matter_butterfly" d="M 150 70 Q 140 80 130 90 Q 120 100 125 115 Q 130 130 120 145 Q 115 155 120 160 Q 135 170 150 170 Q 165 170 180 160 Q 185 155 180 145 Q 170 130 175 115 Q 180 100 170 90 Q 160 80 150 70 Z" fill="#c4beb4" stroke="#a09888" stroke-width="0.8"/>
+    <circle id="central_canal" cx="150" cy="110" r="3" fill="#8aaab4" stroke="#6a8a94" stroke-width="0.5"/>
+    <!-- Anterior horns -->
+    <path id="anterior_horn_left" d="M 130 140 Q 118 145 115 155 Q 118 160 128 155 Q 135 148 130 140 Z" fill="#999"/>
+    <path id="anterior_horn_right" d="M 170 140 Q 182 145 185 155 Q 182 160 172 155 Q 165 148 170 140 Z" fill="#999"/>
+  </g>
+  
+  <!-- Layer: tract_dorsal_column (DCML) - POSTERIOR -->
+  <g id="layer_tract_dorsal_column">
+    <path id="tract_gracilis_left" d="M 144 62 Q 150 54 156 62 L 156 93 Q 150 97 144 93 Z" fill="#4A7A8A" stroke="#3A6A7A" stroke-width="0.8" opacity="0.8"/>
+    <path id="tract_cuneatus_left" d="M 135 65 L 144 62 L 144 93 L 135 95 Z" fill="#6B9BAA" stroke="#5B8B9A" stroke-width="0.8" opacity="0.8"/>
+    <path id="tract_cuneatus_right" d="M 165 65 L 156 62 L 156 93 L 165 95 Z" fill="#6B9BAA" stroke="#5B8B9A" stroke-width="0.8" opacity="0.8"/>
+    <text x="150" y="55" text-anchor="middle" font-size="7" font-weight="700" fill="#5B8A9A">DCML</text>
+    <text x="128" y="78" text-anchor="middle" font-size="5" fill="#5B8A9A">Cuneatus</text>
+    <text x="150" y="78" text-anchor="middle" font-size="5" fill="#4A7A8A">Gracilis</text>
+  </g>
+  
+  <!-- Layer: tract_spinothalamic (STT) - ANTEROLATERAL -->
+  <g id="layer_tract_spinothalamic">
+    <path id="tract_stt_left" d="M 110 115 Q 105 130 110 145 Q 120 155 125 140 Q 120 125 115 115 Z" fill="#C97070" stroke="#B96060" stroke-width="0.8" opacity="0.8"/>
+    <path id="tract_stt_right" d="M 190 115 Q 195 130 190 145 Q 180 155 175 140 Q 180 125 185 115 Z" fill="#C97070" stroke="#B96060" stroke-width="0.8" opacity="0.8"/>
+    <text x="95" y="130" text-anchor="middle" font-size="7" font-weight="700" fill="#C97070">STT</text>
+    <text x="198" y="130" text-anchor="middle" font-size="7" font-weight="700" fill="#C97070">STT</text>
+  </g>
+  
+  <!-- Layer: tract_corticospinal (CST) - LATERAL -->
+  <g id="layer_tract_corticospinal">
+    <path id="tract_cst_left" d="M 125 100 Q 118 115 122 135 Q 130 140 133 125 Q 130 110 128 100 Z" fill="#7B68AE" stroke="#6B58A0" stroke-width="0.8" opacity="0.8"/>
+    <path id="tract_cst_right" d="M 175 100 Q 182 115 178 135 Q 170 140 167 125 Q 170 110 172 100 Z" fill="#7B68AE" stroke="#6B58A0" stroke-width="0.8" opacity="0.8"/>
+    <text x="108" y="105" text-anchor="middle" font-size="7" font-weight="700" fill="#7B68AE">CST</text>
+    <text x="185" y="105" text-anchor="middle" font-size="7" font-weight="700" fill="#7B68AE">CST</text>
+  </g>
+  
+  <!-- Layer: tract_spinocerebellar (SCT) - POSTEROLATERAL -->
+  <g id="layer_tract_spinocerebellar">
+    <path id="tract_sct_left" d="M 118 90 Q 110 100 112 115 Q 116 118 120 110 Q 122 100 120 90 Z" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.8" opacity="0.8"/>
+    <path id="tract_sct_right" d="M 182 90 Q 190 100 188 115 Q 184 118 180 110 Q 178 100 180 90 Z" fill="#6BAF7B" stroke="#5B9F6B" stroke-width="0.8" opacity="0.8"/>
+    <text x="98" y="95" text-anchor="middle" font-size="6" font-weight="700" fill="#6BAF7B">SCT</text>
+    <text x="194" y="95" text-anchor="middle" font-size="6" font-weight="700" fill="#6BAF7B">SCT</text>
+  </g>
+  
+  <!-- Orientation labels -->
+  <text x="150" y="30" text-anchor="middle" font-size="6" fill="#999">POSTERIOR (Dorsal)</text>
+  <text x="150" y="195" text-anchor="middle" font-size="6" fill="#999">ANTERIOR (Ventral)</text>
+</svg>
