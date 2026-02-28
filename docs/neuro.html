@@ -2710,6 +2710,210 @@ const LEVELS = [
 
 const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactive = false, showLabels = true, size = 300 }) => {
   const [hovered, setHovered] = useState(null);
+  
+  // All 14 tracts with anatomically accurate positions
+  const tractDefs = [
+    // POSTERIOR FUNICULUS - Dorsal Columns
+    { key: "dorsalColumns", label: "DCML", short: "Gr/Cu", color: "#4A7A8A", 
+      paths: [
+        "M 197 130 L 197 155 Q 192 162 186 158 L 182 142 Q 184 132 197 130 Z",  // Gracilis L
+        "M 203 130 L 203 155 Q 208 162 214 158 L 218 142 Q 216 132 203 130 Z",  // Gracilis R
+        "M 182 142 L 186 158 Q 178 168 170 164 L 164 150 Q 168 138 182 142 Z",  // Cuneatus L  
+        "M 218 142 L 214 158 Q 222 168 230 164 L 236 150 Q 232 138 218 142 Z", // Cuneatus R
+      ],
+      labelPos: [200, 124], sub: ["Gr", "Cu", "Cu"] },
+    
+    // LISSAUER'S TRACT - Dorsolateral
+    { key: "lissauer", label: "Lissauer", color: "#E88A3A",
+      paths: [
+        "M 162 165 Q 156 172 152 180 Q 148 184 152 186 Q 158 182 164 175 Q 164 168 162 165 Z",
+        "M 238 165 Q 244 172 248 180 Q 252 184 248 186 Q 242 182 236 175 Q 236 168 238 165 Z",
+      ],
+      labelPos: [130, 175] },
+    
+    // DORSAL SPINOCEREBELLAR TRACT
+    { key: "dorsalSCT", label: "DSCT", color: "#2E8B57",
+      paths: [
+        "M 150 185 Q 142 196 138 212 Q 136 224 140 230 Q 148 226 148 214 Q 150 200 152 186 Z",
+        "M 250 185 Q 258 196 262 212 Q 264 224 260 230 Q 252 226 252 214 Q 250 200 248 186 Z",
+      ],
+      labelPos: [116, 208] },
+    
+    // CUNEOCEREBELLAR TRACT
+    { key: "cuneocerebellar", label: "CCT", color: "#66CDAA",
+      paths: [
+        "M 156 177 Q 150 185 146 194 Q 142 190 148 180 Q 152 174 156 177 Z",
+        "M 244 177 Q 250 185 254 194 Q 258 190 252 180 Q 248 174 244 177 Z",
+      ],
+      labelPos: [118, 188] },
+    
+    // LATERAL CORTICOSPINAL TRACT (85-90%)
+    { key: "lateralCST", label: "LCST", color: "#7B68AE",
+      paths: [
+        "M 140 230 Q 134 246 134 266 Q 136 284 144 294 Q 154 290 152 272 Q 150 254 148 232 Z",
+        "M 260 230 Q 266 246 266 266 Q 264 284 256 294 Q 246 290 248 272 Q 250 254 252 232 Z",
+      ],
+      labelPos: [108, 264] },
+    
+    // RUBROSPINAL TRACT
+    { key: "rubrospinal", label: "RST", color: "#CD5C5C",
+      paths: [
+        "M 144 294 Q 140 304 144 312 Q 152 314 154 306 Q 150 298 146 294 Z",
+        "M 256 294 Q 260 304 256 312 Q 248 314 246 306 Q 250 298 254 294 Z",
+      ],
+      labelPos: [112, 306] },
+    
+    // LATERAL RETICULOSPINAL
+    { key: "lateralReticulospinal", label: "Lat-RetST", color: "#D4A870",
+      paths: [
+        "M 144 312 Q 140 322 144 330 Q 152 332 154 324 Q 150 316 146 312 Z",
+        "M 256 312 Q 260 322 256 330 Q 248 332 246 324 Q 250 316 254 312 Z",
+      ],
+      labelPos: [104, 326] },
+    
+    // SPINOTHALAMIC TRACT
+    { key: "spinothalamic", label: "STT", color: "#C94040",
+      paths: [
+        "M 146 328 Q 140 340 144 354 Q 154 360 160 350 Q 156 340 150 330 Z",
+        "M 254 328 Q 260 340 256 354 Q 246 360 240 350 Q 244 340 250 330 Z",
+      ],
+      labelPos: [118, 348] },
+    
+    // VENTRAL SPINOCEREBELLAR TRACT
+    { key: "ventralSCT", label: "VSCT", color: "#3CB371",
+      paths: [
+        "M 144 352 Q 138 362 144 370 Q 152 372 156 364 Q 150 356 146 352 Z",
+        "M 256 352 Q 262 362 256 370 Q 248 372 244 364 Q 250 356 254 352 Z",
+      ],
+      labelPos: [114, 366] },
+    
+    // VESTIBULOSPINAL TRACT
+    { key: "vestibulospinal", label: "VeST", color: "#4682B4",
+      paths: [
+        "M 160 350 Q 154 362 160 374 Q 170 376 174 366 Q 168 356 162 350 Z",
+        "M 240 350 Q 246 362 240 374 Q 230 376 226 366 Q 232 356 238 350 Z",
+      ],
+      labelPos: [140, 380] },
+    
+    // MEDIAL RETICULOSPINAL
+    { key: "medialReticulospinal", label: "Med-RetST", color: "#B8A040",
+      paths: [
+        "M 176 358 Q 172 368 176 378 Q 184 380 188 372 Q 184 364 180 358 Z",
+        "M 224 358 Q 228 368 224 378 Q 216 380 212 372 Q 216 364 220 358 Z",
+      ],
+      labelPos: [200, 394] },
+    
+    // ANTERIOR CORTICOSPINAL TRACT (10-15%)
+    { key: "anteriorCST", label: "ACST", color: "#9B88CE",
+      paths: [
+        "M 190 348 Q 188 360 190 372 Q 196 374 198 364 Q 196 356 194 348 Z",
+        "M 210 348 Q 212 360 210 372 Q 204 374 202 364 Q 204 356 206 348 Z",
+      ],
+      labelPos: [200, 358] },
+    
+    // TECTOSPINAL TRACT
+    { key: "tectospinal", label: "TeST", color: "#BC8F8F",
+      paths: [
+        "M 196 374 Q 200 380 204 374 L 203 382 Q 200 386 197 382 Z",
+      ],
+      labelPos: [200, 400] },
+  ];
+  
+  const isHighlighted = (key) => highlight.includes(key) || hovered === key;
+  const isLesioned = (key) => lesionRegions.includes(key);
+  
+  return (
+    <svg viewBox="80 100 240 320" width={size} style={{ maxWidth: "100%" }}>
+      <defs>
+        <radialGradient id="sc-bg" cx="50%" cy="46%" r="55%">
+          <stop offset="0%" stopColor="#FAF7F2" />
+          <stop offset="100%" stopColor="#E8E2D6" />
+        </radialGradient>
+        <filter id="sc-glow">
+          <feGaussianBlur stdDeviation="2.5" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      
+      {/* Cord outline */}
+      <ellipse cx="200" cy="260" rx="80" ry="100" fill="url(#sc-bg)" stroke="#B8B0A0" strokeWidth="1.5" />
+      
+      {/* Gray matter - butterfly */}
+      <path d="M 200 164 Q 192 172 184 180 Q 174 192 170 202 Q 166 212 168 222 Q 170 232 164 246 Q 158 260 156 274 Q 152 288 158 302 Q 166 318 176 328 Q 186 336 200 338 Q 214 336 224 328 Q 234 318 242 302 Q 248 288 244 274 Q 242 260 236 246 Q 230 232 232 222 Q 234 212 230 202 Q 226 192 216 180 Q 208 172 200 164 Z" fill="#C4BCA8" stroke="#A8A098" strokeWidth="0.8" />
+      
+      {/* Central canal */}
+      <circle cx="200" cy="234" r="3" fill="#8BAAB4" stroke="#6A8A94" strokeWidth="0.6" />
+      
+      {/* Posterior median septum */}
+      <line x1="200" y1="130" x2="200" y2="164" stroke="#A8A098" strokeWidth="0.8" opacity="0.7" />
+      
+      {/* Anterior median fissure */}
+      <line x1="200" y1="338" x2="200" y2="372" stroke="#A8A098" strokeWidth="1.2" opacity="0.7" />
+      
+      {/* Tracts */}
+      {tractDefs.map(tract => (
+        <g key={tract.key}>
+          {tract.paths.map((d, i) => {
+            const active = isHighlighted(tract.key);
+            const lesioned = isLesioned(tract.key);
+            return (
+              <path key={i} d={d}
+                fill={active ? tract.color : tract.color + "40"}
+                stroke={active ? tract.color : tract.color + "66"}
+                strokeWidth={active ? 1.6 : 0.5}
+                opacity={active ? 1 : 0.5}
+                filter={active ? "url(#sc-glow)" : undefined}
+                style={{ cursor: interactive || onClick ? "pointer" : "default", transition: "all 0.2s" }}
+                onMouseEnter={() => setHovered(tract.key)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => onClick && onClick(tract.key)}
+              />
+            );
+          })}
+        </g>
+      ))}
+      
+      {/* Labels */}
+      {showLabels && (
+        <g fontFamily="'DM Sans',system-ui,sans-serif">
+          <text x="200" y="118" textAnchor="middle" fontSize="8" fontWeight="700" fill="#999">POSTERIOR</text>
+          <text x="200" y="406" textAnchor="middle" fontSize="8" fontWeight="700" fill="#999">ANTERIOR</text>
+          
+          {tractDefs.map(tract => {
+            const active = isHighlighted(tract.key);
+            return (
+              <text key={tract.key} x={tract.labelPos[0]} y={tract.labelPos[1]}
+                textAnchor="middle" fontSize={active ? "8" : "6.5"} fontWeight="700"
+                fill={active ? tract.color : "#888"} style={{ transition: "all 0.2s" }}>
+                {tract.label}
+              </text>
+            );
+          })}
+          
+          {/* Sub-labels for DCML */}
+          {isHighlighted("dorsalColumns") && (
+            <>
+              <text x="200" y="152" textAnchor="middle" fontSize="6" fontWeight="600" fill="#4A7A8A">Gr</text>
+              <text x="174" y="160" textAnchor="middle" fontSize="6" fontWeight="600" fill="#4A7A8A">Cu</text>
+              <text x="226" y="160" textAnchor="middle" fontSize="6" fontWeight="600" fill="#4A7A8A">Cu</text>
+            </>
+          )}
+        </g>
+      )}
+      
+      {/* Hover tooltip */}
+      {hovered && (
+        <text x="200" y="420" textAnchor="middle" fontSize="9" fontWeight="700" 
+          fill={tractDefs.find(t=>t.key===hovered)?.color || "#555"} fontFamily="'DM Sans',sans-serif">
+          {tractDefs.find(t=>t.key===hovered)?.label}
+        </text>
+      )}
+    </svg>
+  );
+};
+
+) => {
+  const [hovered, setHovered] = useState(null);
   const tractPaths = {
     dorsalColumns: { d: "M 140 60 Q 150 50 160 60 L 165 95 Q 150 100 135 95 Z", color: TRACTS.dorsalColumns.color, label: "DCML", lx: 150, ly: 55 },
     gracilis: { d: "M 144 62 Q 150 54 156 62 L 156 93 Q 150 97 144 93 Z", color: "#4A7A8A", label: "Gracilis", lx: 150, ly: 68 },
