@@ -2723,6 +2723,7 @@ function MSKPlatform() {
 }
 
 
+const App = typeof NeuroLearnApp !== 'undefined' ? NeuroLearnApp : MSKPlatform;
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
