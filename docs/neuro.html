@@ -2810,64 +2810,6 @@ const BrainstemSVG = ({ level = "midbrain", highlight = null, size = 280 }) => {
       </div>
     </div>
   );
-};) => {
-  const configs = {
-    midbrain: {
-      structures: [
-        { name: "Cerebral peduncle", d: "M 60 140 Q 80 160 110 165 L 110 140 Q 90 135 60 140 Z", color: "#7B68AE", x: 50, y: 155 },
-        { name: "Cerebral peduncle", d: "M 220 140 Q 200 160 170 165 L 170 140 Q 190 135 220 140 Z", color: "#7B68AE", x: 210, y: 155 },
-        { name: "Substantia nigra", d: "M 105 130 Q 120 138 140 140 Q 160 138 175 130 L 175 125 Q 160 132 140 134 Q 120 132 105 125 Z", color: "#444", x: 140, y: 140 },
-        { name: "Red nucleus", d: "M 125 105 A 12 12 0 1 1 125 107 Z", color: "#C97070", x: 115, y: 95 },
-        { name: "Red nucleus", d: "M 155 105 A 12 12 0 1 1 155 107 Z", color: "#C97070", x: 168, y: 95 },
-        { name: "CN III nucleus", d: "M 135 78 A 6 6 0 1 1 135 80 Z", color: COLORS.accent, x: 120, y: 73 },
-        { name: "Aqueduct", d: "M 137 90 A 5 5 0 1 0 143 90 A 5 5 0 1 0 137 90 Z", color: "#8aaab4", x: 140, y: 92 },
-        { name: "Sup. colliculus", d: "M 115 55 Q 140 40 165 55 Q 165 70 140 78 Q 115 70 115 55 Z", color: COLORS.sage, x: 140, y: 55 },
-      ],
-      outline: "M 60 140 Q 50 110 60 80 Q 80 45 140 35 Q 200 45 220 80 Q 230 110 220 140 Q 200 165 140 170 Q 80 165 60 140 Z",
-    },
-    pons: {
-      structures: [
-        { name: "Basilar pons", d: "M 70 140 Q 100 170 140 175 Q 180 170 210 140 L 210 120 Q 180 150 140 155 Q 100 150 70 120 Z", color: COLORS.blue, x: 140, y: 158 },
-        { name: "CN VII nucleus", d: "M 105 100 A 8 8 0 1 1 105 102 Z", color: COLORS.accent, x: 88, y: 95 },
-        { name: "CN VI nucleus", d: "M 130 88 A 5 5 0 1 1 130 90 Z", color: "#6BAF7B", x: 120, y: 82 },
-        { name: "CN V nucleus", d: "M 80 95 A 10 8 0 1 1 80 97 Z", color: COLORS.pink, x: 60, y: 90 },
-        { name: "4th ventricle", d: "M 120 55 Q 140 45 160 55 L 160 75 Q 140 82 120 75 Z", color: "#8aaab4", x: 140, y: 60 },
-        { name: "MCP", d: "M 55 90 Q 45 110 55 130 Q 65 140 75 130 Q 70 110 75 90 Z", color: COLORS.beige, x: 40, y: 110 },
-        { name: "MCP", d: "M 225 90 Q 235 110 225 130 Q 215 140 205 130 Q 210 110 205 90 Z", color: COLORS.beige, x: 230, y: 110 },
-      ],
-      outline: "M 55 90 Q 50 60 80 40 Q 110 30 140 28 Q 170 30 200 40 Q 230 60 225 90 Q 235 110 225 130 Q 210 160 140 175 Q 70 160 55 130 Q 45 110 55 90 Z",
-    },
-    medulla: {
-      structures: [
-        { name: "Pyramid", d: "M 120 140 Q 130 155 140 158 Q 150 155 160 140 L 158 125 Q 150 130 140 132 Q 130 130 122 125 Z", color: "#7B68AE", x: 140, y: 150 },
-        { name: "Olive", d: "M 90 105 Q 80 120 85 140 Q 95 150 105 140 Q 110 120 105 105 Z", color: COLORS.beige, x: 78, y: 125 },
-        { name: "Olive", d: "M 190 105 Q 200 120 195 140 Q 185 150 175 140 Q 170 120 175 105 Z", color: COLORS.beige, x: 200, y: 125 },
-        { name: "Nucleus gracilis", d: "M 130 55 A 8 6 0 1 1 130 57 Z", color: "#5B8A9A", x: 118, y: 48 },
-        { name: "Nucleus cuneatus", d: "M 110 65 A 8 6 0 1 1 110 67 Z", color: "#6B9BAA", x: 95, y: 58 },
-        { name: "CN XII nucleus", d: "M 135 78 A 5 5 0 1 1 135 80 Z", color: COLORS.accent, x: 122, y: 73 },
-        { name: "4th ventricle", d: "M 115 60 Q 140 48 165 60 L 165 78 Q 140 85 115 78 Z", color: "#8aaab4", x: 140, y: 62 },
-        { name: "Nuc. solitarius", d: "M 118 90 A 6 4 0 1 1 118 92 Z", color: COLORS.sage, x: 102, y: 86 },
-      ],
-      outline: "M 75 95 Q 70 65 90 45 Q 110 32 140 28 Q 170 32 190 45 Q 210 65 205 95 Q 215 120 205 145 Q 190 168 140 175 Q 90 168 75 145 Q 65 120 75 95 Z",
-    },
-  };
-  const cfg = configs[level];
-  return (
-    <svg viewBox="20 15 240 175" width={size} height={size * 0.72} style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }}>
-      <defs>
-        <radialGradient id={`bs-grad-${level}`} cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stopColor="#f5f0e8" /><stop offset="100%" stopColor="#e0d8cc" />
-        </radialGradient>
-      </defs>
-      <path d={cfg.outline} fill={`url(#bs-grad-${level})`} stroke="#b0a89c" strokeWidth="1.5" />
-      {cfg.structures.map((s, i) => (
-        <g key={i}>
-          <path d={s.d} fill={`${s.color}88`} stroke={s.color} strokeWidth="1" />
-          <text x={s.x} y={s.y} textAnchor="middle" fontSize="6" fill={COLORS.text} fontFamily={FONTS} fontWeight="600">{s.name}</text>
-        </g>
-      ))}
-    </svg>
-  );
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
