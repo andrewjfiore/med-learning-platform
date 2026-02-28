@@ -2034,8 +2034,7 @@ const TabBar = ({ tabs, active, onChange }) => (
 );
 
 // ─── Main Application ──────────────────────────────────────────────────────
-function MSKPlatform()
- {
+function MSKPlatform() {
   const [view, setView] = useState("home");
   const [xp, setXp] = useState(0);
   const [level, setLevel] = useState(1);
@@ -2722,6 +2721,7 @@ function MSKPlatform()
 }
 
 
+const App = typeof NeuroLearnApp !== 'undefined' ? NeuroLearnApp : MSKPlatform;
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
