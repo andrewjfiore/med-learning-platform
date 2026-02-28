@@ -20,7 +20,7 @@
  * Source: med-learning-platform/shared/knowledge-base.json
  * Run: node build.js to regenerate
  */
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+const { useState, useEffect, useCallback, useRef, useMemo } = React;
 
 /* ───────── CITATION FOOTER (Generated from shared KB) ───────── */
 const CITATIONS = [
@@ -2034,7 +2034,8 @@ const TabBar = ({ tabs, active, onChange }) => (
 );
 
 // ─── Main Application ──────────────────────────────────────────────────────
-export default function MSKPlatform() {
+function MSKPlatform()
+ {
   const [view, setView] = useState("home");
   const [xp, setXp] = useState(0);
   const [level, setLevel] = useState(1);
