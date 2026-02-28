@@ -2189,6 +2189,8 @@ export default function MSKPlatform() {
       {/* Dermatome & Reflex Quick Ref */}
       <Card>
         <h3 style={{ fontSize: 16, fontWeight: 800, fontFamily: FONT_DISPLAY, color: C.text, margin: "0 0 12px" }}>🗺️ Quick Reference: Dermatomes & Reflexes</h3>
+        <img src="img/dermatome-map.png" alt="Dermatome map of the human body" 
+          style={{ width: "100%", maxWidth: 340, borderRadius: 12, background: "#fff", padding: 8, margin: "8px auto 16px", display: "block", boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }} />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: 13, color: C.accent, marginBottom: 6 }}>Key Dermatomes</div>
