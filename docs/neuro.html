@@ -2944,7 +2944,7 @@ function NeuroLearnApp() {
 
 /* ─── Card Component ─── */
 const Card = ({ children, style = {}, onClick, hover = false }) => (
-  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 24, boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
+  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
     {children}
   </div>
 );
@@ -2980,14 +2980,14 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
   const tractKeys = Object.keys(TRACTS);
   const maxMastery = Math.max(1, ...Object.values(masteryMap));
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <div>
         <h1 style={{ fontSize: 28, fontWeight: 800, fontFamily: "'Nunito',sans-serif", margin: 0, letterSpacing: "-0.5px" }}>Welcome back, Andrew 👋</h1>
         <p style={{ color: COLORS.textLight, margin: "6px 0 0", fontSize: 14.5 }}>Keep building your neuroanatomy mastery for Step 1!</p>
       </div>
 
       {/* Stats Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
         <Card style={{ background: `linear-gradient(135deg, ${COLORS.teal}44, ${COLORS.teal}11)` }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textLight, marginBottom: 4 }}>LEVEL</div>
           <div style={{ fontSize: 20, fontWeight: 800, fontFamily: "'Nunito'" }}>{level.name}</div>
@@ -3009,7 +3009,7 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
       {/* Mastery Heat Map */}
       <Card>
         <h3 style={{ margin: "0 0 16px", fontFamily: "'Nunito'", fontSize: 16, fontWeight: 700 }}>🗺️ Mastery Heat Map</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
           {tractKeys.map(k => {
             const val = masteryMap[k] || 0;
             const intensity = maxMastery > 0 ? val / maxMastery : 0;
