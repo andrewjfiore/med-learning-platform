@@ -3035,10 +3035,10 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
       {/* Quick Start */}
       <div>
         <h3 style={{ fontFamily: "'Nunito'", fontSize: 16, fontWeight: 700, marginBottom: 12 }}>🚀 Quick Start</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
           {MODULES.filter(m => m.id !== "dashboard").map(m => (
-            <Card key={m.id} onClick={() => setModule(m.id)} style={{ cursor: "pointer", padding: "18px 20px", display: "flex", alignItems: "center", gap: 12, transition: "transform 0.2s, box-shadow 0.2s" }}>
-              <span style={{ fontSize: 28 }}>{m.icon}</span>
+            <Card key={m.id} onClick={() => setModule(m.id)} style={{ cursor: "pointer", padding: "12px 14px", display: "flex", alignItems: "center", gap: 12, transition: "transform 0.2s, box-shadow 0.2s" }}>
+              <span style={{ fontSize: 22 }}>{m.icon}</span>
               <span style={{ fontWeight: 700, fontSize: 14 }}>{m.name}</span>
             </Card>
           ))}
