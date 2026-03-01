@@ -2897,7 +2897,7 @@ function NeuroLearnApp() {
     <div style={{ fontFamily: "'DM Sans', 'Nunito', system-ui, sans-serif", color: COLORS.text, background: `linear-gradient(135deg, ${COLORS.bg} 0%, #f0ede6 100%)`, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
       {/* Top Bar */}
-      <header style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "10px 20px", display: "flex", alignItems: "center", gap: 16, position: "sticky", top: 0, zIndex: 100 }}>
+      <header style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "6px 12px", display: "flex", alignItems: "center", gap: 8, position: "sticky", top: 0, zIndex: 100 }}>
         <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", padding: 4 }}>☰</button>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 24 }}>🧠</span>
@@ -2944,7 +2944,7 @@ function NeuroLearnApp() {
 
 /* ─── Card Component ─── */
 const Card = ({ children, style = {}, onClick, hover = false }) => (
-  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
+  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 10, boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
     {children}
   </div>
 );
@@ -2980,14 +2980,14 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
   const tractKeys = Object.keys(TRACTS);
   const maxMastery = Math.max(1, ...Object.values(masteryMap));
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
       <div>
         <h1 style={{ fontSize: 28, fontWeight: 800, fontFamily: "'Nunito',sans-serif", margin: 0, letterSpacing: "-0.5px" }}>Welcome back, Andrew 👋</h1>
         <p style={{ color: COLORS.textLight, margin: "6px 0 0", fontSize: 14.5 }}>Keep building your neuroanatomy mastery for Step 1!</p>
       </div>
 
       {/* Stats Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, fontSize: 10 }}>
         <Card style={{ background: `linear-gradient(135deg, ${COLORS.teal}44, ${COLORS.teal}11)` }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textLight, marginBottom: 4 }}>LEVEL</div>
           <div style={{ fontSize: 20, fontWeight: 800, fontFamily: "'Nunito'" }}>{level.name}</div>
@@ -3009,7 +3009,7 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
       {/* Mastery Heat Map */}
       <Card>
         <h3 style={{ margin: "0 0 16px", fontFamily: "'Nunito'", fontSize: 16, fontWeight: 700 }}>🗺️ Mastery Heat Map</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 3 }}>
           {tractKeys.map(k => {
             const val = masteryMap[k] || 0;
             const intensity = maxMastery > 0 ? val / maxMastery : 0;
