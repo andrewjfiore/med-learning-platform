@@ -1869,121 +1869,19 @@ const ShoulderSVG = ({ layers }) => (
   <div style={{ textAlign: "center" }}>
     <img src="img/shoulder-grays-292.png" alt="Shoulder anatomy - Gray's Anatomy" 
       style={{ width: "100%", maxWidth: 420, borderRadius: 12, background: "#fff", padding: 8, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }} />
-    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Gray's Anatomy: Shoulder joint showing humeral head, rotator cuff muscles, and glenoid cavity</p>
-  </div>);" cy="50%" r="50%"><stop offset="0%" stopColor={C.teal} stopOpacity="0.3"/><stop offset="100%" stopColor={C.teal} stopOpacity="0"/></radialGradient>
-      <linearGradient id="boneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#F5F0E8"/><stop offset="100%" stopColor="#E8DDD0"/></linearGradient>
-      <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#E88B8B"/><stop offset="100%" stopColor="#C76B6B"/></linearGradient>
-    </defs>
-    <ellipse cx="200" cy="130" rx="120" ry="100" fill="url(#jointGlow)"/>
-    {layers.bones && <g className="anim-fade-in">
-      <path d="M120,60 Q140,50 200,45 Q260,50 280,60 L275,75 Q255,68 200,63 Q145,68 125,75 Z" fill="url(#boneGrad)" stroke="#B8A898" strokeWidth="1.5"/>
-      <text x="200" y="55" textAnchor="middle" fontSize="9" fill={C.textLight} fontWeight="600">Clavicle</text>
-      <path d="M80,80 Q85,65 120,60 L125,75 Q150,90 160,120 L170,130 Q175,145 170,165 L155,185 Q140,175 130,155 Q100,135 85,115 Q75,95 80,80 Z" fill="url(#boneGrad)" stroke="#B8A898" strokeWidth="1.5"/>
-      <text x="115" y="130" textAnchor="middle" fontSize="8" fill={C.textLight} fontWeight="600">Scapula</text>
-      <path d="M155,110 Q165,100 180,105 Q185,110 185,125 L183,128" fill="url(#boneGrad)" stroke="#B8A898" strokeWidth="1"/>
-      <text x="170" y="102" textAnchor="middle" fontSize="7" fill={C.textLight}>Acromion</text>
-      <path d="M170,130 A30,30 0 0,1 230,130 A30,30 0 0,1 170,130 Z" fill="url(#boneGrad)" stroke="#B8A898" strokeWidth="1.5"/>
-      <circle cx="200" cy="135" r="22" fill="#F0EBE3" stroke="#C8B8A8" strokeWidth="1.5"/>
-      <text x="200" y="138" textAnchor="middle" fontSize="8" fill={C.textLight} fontWeight="600">Humeral Head</text>
-      <path d="M185,158 Q190,165 195,200 Q198,240 200,290 Q202,240 205,200 Q210,165 215,158" fill="url(#boneGrad)" stroke="#B8A898" strokeWidth="1.5"/>
-      <text x="235" y="230" fontSize="8" fill={C.textLight}>Humerus</text>
-      <circle cx="223" cy="150" r="6" fill="#EDE5DA" stroke="#B8A898" strokeWidth="1"/>
-      <text x="245" y="153" fontSize="7" fill={C.textLight}>Greater tuberosity</text>
-      <circle cx="187" cy="155" r="5" fill="#EDE5DA" stroke="#B8A898" strokeWidth="1"/>
-      <text x="145" y="162" fontSize="7" fill={C.textLight}>Lesser tuberosity</text>
-    </g>}
-    {layers.muscles && <g className="anim-fade-in" opacity="0.82">
-      <path d="M105,85 Q115,75 160,110 Q170,130 170,135 Q140,130 115,120 Q100,110 105,85 Z" fill="#E88B8B" stroke="#C76B6B" strokeWidth="1.2" opacity="0.7"/>
-      <text x="128" y="108" textAnchor="middle" fontSize="7.5" fill="#8B3030" fontWeight="700">Supraspinatus</text>
-      <path d="M95,125 Q100,115 130,120 Q145,130 155,145 Q160,160 155,175 Q130,160 105,150 Q90,140 95,125 Z" fill="#D47878" stroke="#B86060" strokeWidth="1.2" opacity="0.7"/>
-      <text x="122" y="148" textAnchor="middle" fontSize="7.5" fill="#8B3030" fontWeight="700">Infraspinatus</text>
-      <path d="M100,160 Q115,155 135,170 Q140,180 135,195 Q120,190 105,180 Q95,172 100,160 Z" fill="#CC7070" stroke="#A85858" strokeWidth="1" opacity="0.65"/>
-      <text x="118" y="178" textAnchor="middle" fontSize="6.5" fill="#8B3030" fontWeight="600">Teres Minor</text>
-      <path d="M155,115 Q165,110 175,115 Q180,125 178,140 Q175,150 170,155 Q162,145 158,130 Q155,120 155,115 Z" fill="#E09090" stroke="#C07070" strokeWidth="1" opacity="0.65"/>
-      <text x="140" y="138" fontSize="6.5" fill="#8B3030" fontWeight="600">Subscap.</text>
-      <path d="M180,105 Q195,85 220,80 Q250,78 270,85 Q260,100 240,130 Q230,155 225,175 Q220,200 215,230 Q205,230 200,200 Q195,175 190,155 Q185,140 180,125 Q178,115 180,105 Z" fill="url(#muscleGrad)" stroke="#B86060" strokeWidth="1.5" opacity="0.6"/>
-      <text x="238" y="115" fontSize="9" fill="#8B3030" fontWeight="700">Deltoid</text>
-    </g>}
-    {layers.nerves && <g className="anim-fade-in">
-      <path d="M168,70 Q175,90 180,110 Q182,125 200,145 Q210,155 220,170" fill="none" stroke="#F6C547" strokeWidth="2.5" strokeDasharray="6,3" opacity="0.9"/>
-      <circle cx="200" cy="145" r="4" fill="#F6C547" stroke="#D4A020" strokeWidth="1"/>
-      <text x="225" y="175" fontSize="8" fill="#9A7A10" fontWeight="700">Axillary n.</text>
-      <path d="M130,70 Q120,90 110,110 Q105,130 110,155" fill="none" stroke="#F6C547" strokeWidth="2" strokeDasharray="5,3" opacity="0.8"/>
-      <text x="80" y="140" fontSize="7" fill="#9A7A10" fontWeight="600">Suprascapular n.</text>
-    </g>}
-    {layers.vessels && <g className="anim-fade-in">
-      <path d="M170,75 Q185,95 195,125 Q200,145 200,170 Q200,200 200,260" fill="none" stroke="#E05555" strokeWidth="2" opacity="0.8"/>
-      <text x="210" y="200" fontSize="7" fill="#B03030" fontWeight="600">Circumflex humeral aa.</text>
-      <circle cx="200" cy="140" r="3" fill="#E05555" opacity="0.7"/>
-    </g>}
-    {layers.ligaments && <g className="anim-fade-in">
-      <path d="M165,115 Q175,108 185,112" fill="none" stroke="#5B9BD5" strokeWidth="2.5" opacity="0.85"/>
-      <text x="158" y="108" fontSize="7" fill="#3A6FA0" fontWeight="600">Coracohumeral</text>
-      <path d="M170,130 Q185,120 195,128" fill="none" stroke="#5B9BD5" strokeWidth="2" opacity="0.7"/>
-      <path d="M170,138 Q185,130 195,135" fill="none" stroke="#5B9BD5" strokeWidth="2" opacity="0.7"/>
-      <path d="M170,146 Q185,140 198,145" fill="none" stroke="#5B9BD5" strokeWidth="2" opacity="0.7"/>
-      <text x="145" y="148" fontSize="6.5" fill="#3A6FA0" fontWeight="600">GH Ligs</text>
-    </g>}
-  </svg>
+    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Shoulder joint: humeral head, rotator cuff, glenoid cavity</p>
+  </div>
 );
 
 const KneeSVG = ({ layers }) => (
   <div style={{ textAlign: "center" }}>
-    <img src="img/knee-anatomy.jpg" alt="Knee anatomy - Wikimedia" 
+    <img src="img/knee-anatomy.jpg" alt="Knee anatomy" 
       style={{ width: "100%", maxWidth: 380, borderRadius: 12, background: "#fff", padding: 8, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }} />
-    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Knee joint showing femur, tibia, fibula, patella, and ligaments (ACL, PCL, MCL, LCL)</p>
-  </div>);>
-      <radialGradient id="kneeGlow" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor={C.mint} stopOpacity="0.25"/><stop offset="100%" stopColor={C.mint} stopOpacity="0"/></radialGradient>
-      <linearGradient id="kneeBone" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#F2ECE4"/><stop offset="100%" stopColor="#E0D5C8"/></linearGradient>
-    </defs>
-    <ellipse cx="175" cy="175" rx="100" ry="120" fill="url(#kneeGlow)"/>
-    {layers.bones && <g className="anim-fade-in">
-      <path d="M150,20 Q155,15 175,15 Q195,15 200,20 L210,120 Q215,140 215,160 Q215,175 210,180 Q195,190 175,192 Q155,190 140,180 Q135,175 135,160 Q135,140 140,120 Z" fill="url(#kneeBone)" stroke="#B8A898" strokeWidth="1.5"/>
-      <text x="175" y="50" textAnchor="middle" fontSize="9" fill={C.textLight} fontWeight="600">Femur</text>
-      <ellipse cx="160" cy="178" rx="25" ry="15" fill="#EDE5DA" stroke="#B8A898" strokeWidth="1"/>
-      <text x="160" y="182" textAnchor="middle" fontSize="7" fill={C.textLight}>Med. condyle</text>
-      <ellipse cx="195" cy="178" rx="25" ry="15" fill="#EDE5DA" stroke="#B8A898" strokeWidth="1"/>
-      <text x="195" y="182" textAnchor="middle" fontSize="7" fill={C.textLight}>Lat. condyle</text>
-      <ellipse cx="175" cy="150" rx="18" ry="25" fill="#F5F0E8" stroke="#C8B8A8" strokeWidth="1.5"/>
-      <text x="175" y="153" textAnchor="middle" fontSize="8" fill={C.textLight} fontWeight="600">Patella</text>
-      <path d="M135,210 Q130,205 130,200 Q155,195 175,197 Q195,195 220,200 Q220,205 215,210 L215,350 Q195,355 175,355 Q155,355 135,350 Z" fill="url(#kneeBone)" stroke="#B8A898" strokeWidth="1.5"/>
-      <text x="175" y="300" textAnchor="middle" fontSize="9" fill={C.textLight} fontWeight="600">Tibia</text>
-      <path d="M230,200 Q240,195 245,200 L248,330 Q245,340 240,340 L235,340 Q230,340 228,335 L230,200 Z" fill="url(#kneeBone)" stroke="#B8A898" strokeWidth="1"/>
-      <text x="255" y="270" fontSize="8" fill={C.textLight}>Fibula</text>
-    </g>}
-    {layers.ligaments && <g className="anim-fade-in">
-      <line x1="175" y1="185" x2="165" y2="205" stroke="#E05555" strokeWidth="3" opacity="0.85"/>
-      <text x="140" y="200" fontSize="7.5" fill="#B03030" fontWeight="700">ACL</text>
-      <line x1="175" y1="185" x2="185" y2="208" stroke="#5B9BD5" strokeWidth="3" opacity="0.85"/>
-      <text x="195" y="200" fontSize="7.5" fill="#3A6FA0" fontWeight="700">PCL</text>
-      <line x1="130" y1="175" x2="130" y2="210" stroke="#48BB78" strokeWidth="3" opacity="0.8"/>
-      <text x="100" y="195" fontSize="7.5" fill="#2D7A4F" fontWeight="700">MCL</text>
-      <line x1="220" y1="175" x2="230" y2="210" stroke="#F6AD55" strokeWidth="3" opacity="0.8"/>
-      <text x="240" y="195" fontSize="7.5" fill="#9A6A10" fontWeight="700">LCL</text>
-      <ellipse cx="155" cy="197" rx="20" ry="5" fill="none" stroke="#9B59B6" strokeWidth="2" transform="rotate(-5,155,197)"/>
-      <text x="115" y="215" fontSize="7" fill="#7B3F96" fontWeight="600">Med. meniscus</text>
-      <ellipse cx="195" cy="197" rx="18" ry="5" fill="none" stroke="#9B59B6" strokeWidth="2" transform="rotate(5,195,197)"/>
-      <text x="215" y="215" fontSize="7" fill="#7B3F96" fontWeight="600">Lat. meniscus</text>
-    </g>}
-    {layers.muscles && <g className="anim-fade-in" opacity="0.7">
-      <path d="M140,30 Q135,15 145,10 Q160,8 170,15 L165,120 Q155,130 145,120 Z" fill="#E88B8B" stroke="#C76B6B" strokeWidth="1"/>
-      <text x="148" y="70" fontSize="7" fill="#8B3030" fontWeight="600" transform="rotate(-5,148,70)">Vastus med.</text>
-      <path d="M210,30 Q215,15 205,10 Q190,8 185,15 L188,120 Q198,130 208,120 Z" fill="#D47878" stroke="#B86060" strokeWidth="1"/>
-      <text x="195" y="70" fontSize="7" fill="#8B3030" fontWeight="600" transform="rotate(5,195,70)">Vastus lat.</text>
-    </g>}
-    {layers.nerves && <g className="anim-fade-in">
-      <path d="M220,180 Q225,190 235,200 Q240,210 238,225" fill="none" stroke="#F6C547" strokeWidth="2.5" strokeDasharray="5,3"/>
-      <circle cx="238" cy="210" r="3" fill="#F6C547"/>
-      <text x="248" y="225" fontSize="7.5" fill="#9A7A10" fontWeight="700">Common peroneal n.</text>
-      <path d="M175,185 Q178,210 180,250 Q182,290 180,340" fill="none" stroke="#F6C547" strokeWidth="2" strokeDasharray="5,3" opacity="0.8"/>
-      <text x="190" y="260" fontSize="7" fill="#9A7A10" fontWeight="600">Tibial n.</text>
-    </g>}
-    {layers.vessels && <g className="anim-fade-in">
-      <path d="M175,170 Q178,185 180,200 Q182,220 180,240" fill="none" stroke="#E05555" strokeWidth="2" opacity="0.75"/>
-      <text x="190" y="230" fontSize="7" fill="#B03030" fontWeight="600">Popliteal a.</text>
-    </g>}
-  </svg>
+    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Knee: femur, tibia, fibula, patella, ACL, PCL, MCL, LCL</p>
+  </div>
 );
+
+
 
 // ─── Styled Components / Micro-components ──────────────────────────────────
 const Pill = ({ active, color, onClick, children }) => (
