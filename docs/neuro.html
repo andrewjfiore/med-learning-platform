@@ -20,7 +20,7 @@
  * Source: med-learning-platform/shared/knowledge-base.json
  * Run: node build.js to regenerate
  */
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+const { useState, useEffect, useCallback, useMemo, useRef } = React;
 
 /* ───────── CITATION FOOTER (Generated from shared KB) ───────── */
 const CITATIONS = [
@@ -2854,7 +2854,7 @@ const MODULES = [
   { id: "boss", name: "Boss Battle", icon: "🏆" },
 ];
 
-export default function NeuroLearnApp() {
+function NeuroLearnApp() {
   const [module, setModule] = useState("dashboard");
   const [xp, setXp] = useState(() => { try { return parseInt(localStorage.getItem("neuro_xp")) || 0; } catch { return 0; } });
   const [streak, setStreak] = useState(() => { try { return parseInt(localStorage.getItem("neuro_streak")) || 0; } catch { return 0; } });
@@ -3662,6 +3662,7 @@ function BossBattle({ addXp, xp }) {
 }
 
 
+const App = NeuroLearnApp;
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
