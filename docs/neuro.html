@@ -2852,6 +2852,9 @@ const MODULES = [
   { id: "brainRegions", name: "Brain Regions", icon: "🔬" },
   { id: "quiz", name: "Quiz Arena", icon: "📝" },
   { id: "boss", name: "Boss Battle", icon: "🏆" },
+  { id: "tractTrainer", name: "Tract Trainer", icon: "🎓" },
+  { id: "tract3D", name: "3D Explorer", icon: "🧊" },
+  { id: "strokeTrainer", name: "Stroke Trainer", icon: "🩺" },
   { 
 // ─── Tract ID Trainer ──────────────────────────────────────────────────────────
 const TractIDTrainer = ({ addXp }) => {
@@ -3771,8 +3774,70 @@ function BossBattle({ addXp, xp }) {
       </Card>
     </div>
   );
+
+
+// ─── Stroke Trainer Module ───────────────────────────────────────────────────────
+function StrokeTrainer({ addXp }) {
+  const [score, setScore] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
+  const [showAns, setShowAns] = React.useState(false);
+  
+  const STROKES = [
+    { id: "lacunar", name: "Lacunar Stroke", artery: "Small penetrating arteries (lenticulostriate)", deficits: "Pure motor, pure sensory, ataxic hemiparesis", common: "Hypertension, diabetes" },
+    { id: "pica", name: "PICA Infarct", artery: "Posterior Inferior Cerebellar Artery", deficits: "Vertigo, nystagmus, dysphagia, hoarseness (lateral medullary)", common: "Wallenberg syndrome" },
+    { id: "assa", name: "Anterior Spinal Artery", artery: "Anterior Spinal Artery", deficits: "Bilateral motor, bilateral pain/temp loss below, urinary retention", common: "Spinal cord infarction" },
+    { id: "aica", name: "AICA Infarct", artery: "Anterior Inferior Cerebellar Artery", deficits: "Facial pain/temp loss, corneal reflex absent, facial paralysis", common: "Lateral pontine" },
+    { id: "pca", name: "PCA Stroke", artery: "Posterior Cerebral Artery", deficits: "Contralateral homonymous hemianopia, memory impairment", common: "Occipital lobe" },
+    { id: "mca", name: "MCA Stroke", artery: "Middle Cerebral Artery", deficits: "Contralateral face/arm > leg weakness, aphasia (dominant), neglect (non-dominant)", common: "Most common stroke" },
+  ];
+  
+  const [q, setQ] = React.useState(() => STROKES[Math.floor(Math.random() * STROKES const [sel,.length)]);
+  setSel = React.useState(null);
+  
+  const nextQ = () => {
+    setSel(null);
+    setShowAns(false);
+    setQ(STROKES[Math.floor(Math.random() * STROKES.length)]);
+  };
+  
+  const check = () => {
+    setShowAns(true);
+    setTotal(t => t + 1);
+    if (sel === q.id) { setScore(s => s + 1); addXp(10, sel); }
+  };
+  
+  const opts = STROKES.filter(s => s.id !== q.id).sort(() => Math.random() - 0.5).slice(0, 3).concat(q).sort(() => Math.random() - 0.5);
+  
+  return React.createElement("div", { style: { padding: 16 } },
+    React.createElement("h2", { style: { fontFamily: FONTS, fontSize: 22, fontWeight: 800, margin: "0 0 16px" } }, "🩺 Stroke Location Trainer"),
+    React.createElement("div", { style: { display: "flex", gap: 16, marginBottom: 16, fontSize: 14, fontWeight: 600 } },
+      React.createElement("span", { style: { color: "#2E8B57" } }, "✅ " + score + "/" + total)
+    ),
+    React.createElement("div", { style: { background: "#f8f9fa", borderRadius: 12, padding: 16, marginBottom: 16 } },
+      React.createElement("p", { style: { fontSize: 15, fontWeight: 700, margin: "0 0 12px" } }, "Which artery is affected given these deficits?"),
+      React.createElement("p", { style: { fontSize: 13, color: "#666", margin: "0 0 16px" } }, q.deficits),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 } },
+        opts.map(s => 
+          React.createElement("button", { key: s.id, onClick: () => !showAns && setSel(s.id), disabled: showAns,
+            style: { padding: "12px 10px", borderRadius: 10, border: sel === s.id && !showAns ? "2px solid " + (s.id === q.id ? "#2E8B57" : "#C94040") : "1px solid #ddd",
+              background: showAns && s.id === q.id ? "#2E8B5715" : showAns && sel === s.id ? "#C9404015" : sel === s.id ? "#4A7A8A20" : "#fff",
+              color: showAns && s.id === q.id ? "#2E8B57" : "#333", fontSize: 12, fontWeight: 600, cursor: showAns ? "default" : "pointer", fontFamily: FONTS },
+            s.name)
+        )
+      ),
+      showAns && React.createElement("div", { style: { marginTop: 12, padding: 12, background: sel === q.id ? "#2E8B5715" : "#C9404015", borderRadius: 8 } },
+        React.createElement("p", { style: { fontWeight: 700, margin: 0 } }, sel === q.id ? "✅ Correct!" : "❌ " + q.name),
+        React.createElement("p", { style: { fontSize: 12, margin: "4px 0 0" } }, q.artery)
+      )
+    ),
+    React.createElement("button", { onClick: showAns ? nextQ : check, disabled: !showAns && !sel,
+      style: { width: "100%", padding: "14px 20px", borderRadius: 10, border: "none", background: !showAns && !sel ? "#ccc" : "#4A7A8A", color: "#fff", fontSize: 15, fontWeight: 700, cursor: !showAns && !sel ? "not-allowed" : "pointer", fontFamily: FONTS } },
+      showAns ? "Next Question →" : "Check Answer"
+    )
+  );
 }
 
+);
 
 const App = NeuroLearnApp;
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
