@@ -2699,15 +2699,15 @@ const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactiv
   
   // Clickable regions for each tract on the image (positions match the Wikimedia diagram)
   const tractRegions = [
-    { id: "dorsalColumns", label: "DCML", x: "75%", y: "15%", w: "20%", h: "25%", color: "#4A7A8A", desc: "Dorsal Columns: Gracile & Cuneate fasciculi - vibration, proprioception, fine touch" },
-    { id: "lissauer", label: "Lissauer", x: "8%", y: "25%", w: "15%", h: "15%", color: "#E88A3A", desc: "Lissauer's Tract: Axons entering/exiting, carries pain/temperature 1-2 levels" },
-    { id: "dorsalSCT", label: "DSCT", x: "5%", y: "42%", w: "18%", h: "20%", color: "#2E8B57", desc: "Dorsal Spinocerebellar: Unconscious proprioception from muscle spindles" },
-    { id: "spinothalamic", label: "STT", x: "70%", y: "50%", w: "22%", h: "25%", color: "#C94040", desc: "Spinothalamic: Pain, temperature, crude touch (decussates 1-2 levels up)" },
-    { id: "lateralCST", label: "LCST", x: "25%", y: "20%", w: "22%", h: "35%", color: "#7B68AE", desc: "Lateral Corticospinal: Voluntary motor (85-90% decussate at pyramids)" },
-    { id: "ventralSCT", label: "VSCT", x: "60%", y: "70%", w: "15%", h: "15%", color: "#4A7A8A", desc: "Ventral Spinocerebellar: Unconscious proprioception" },
-    { id: "rubrospinal", label: "RST", x: "40%", y: "30%", w: "15%", h: "15%", color: "#8B4513", desc: "Rubrospinal: Flexor motor control (minor in humans)" },
-    { id: "vestibulospinal", label: "VeST", x: "55%", y: "75%", w: "18%", h: "15%", color: "#2E8B57", desc: "Vestibulospinal: Postural control, extensor tone" },
-    { id: "reticulospinal", label: "ReST", x: "45%", y: "55%", w: "15%", h: "15%", color: "#6B8E23", desc: "Reticulospinal: Autonomic, pain modulation, sleep" },
+    { id: "dorsalColumns", label: "DCML", x: "68%", y: "8%", w: "28%", h: "28%", color: "#4A7A8A", desc: "Dorsal Columns: Gracile & Cuneate fasciculi - vibration, proprioception, fine touch" },
+    { id: "lissauer", label: "Lis", x: "5%", y: "25%", w: "18%", h: "18%", color: "#E88A3A", desc: "Lissauer's Tract: Axons entering/exiting, carries pain/temperature 1-2 levels" },
+    { id: "dorsalSCT", label: "DSCT", x: "5%", y: "45%", w: "20%", h: "18%", color: "#2E8B57", desc: "Dorsal Spinocerebellar: Unconscious proprioception from muscle spindles" },
+    { id: "spinothalamic", label: "STT", x: "62%", y: "45%", w: "33%", h: "28%", color: "#C94040", desc: "Spinothalamic: Pain, temperature, crude touch (decussates 1-2 levels up)" },
+    { id: "lateralCST", label: "LCST", x: "28%", y: "15%", w: "28%", h: "40%", color: "#7B68AE", desc: "Lateral Corticospinal: Voluntary motor (85-90% decussate at pyramids)" },
+    { id: "ventralSCT", label: "VSCT", x: "55%", y: "70%", w: "18%", h: "15%", color: "#4A7A8A", desc: "Ventral Spinocerebellar: Unconscious proprioception" },
+    { id: "rubrospinal", label: "RST", x: "38%", y: "32%", w: "18%", h: "15%", color: "#8B4513", desc: "Rubrospinal: Flexor motor control (minor in humans)" },
+    { id: "vestibulospinal", label: "VeST", x: "50%", y: "72%", w: "22%", h: "18%", color: "#2E8B57", desc: "Vestibulospinal: Postural control, extensor tone" },
+    { id: "reticulospinal", label: "ReST", x: "42%", y: "52%", w: "18%", h: "18%", color: "#6B8E23", desc: "Reticulospinal: Autonomic, pain modulation, sleep" },
   ];
   
   return (
@@ -2729,8 +2729,8 @@ const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactiv
           <div key={r.id} onClick={() => onClick && onClick(r.id)}
             style={{
               position: "absolute", left: r.x, top: r.y, width: r.w, height: r.h,
-              border: isHighlighted(r.id) ? `3px solid ${r.color}` : "2px dashed transparent",
-              background: isHighlighted(r.id) ? r.color + "30" : "transparent",
+              border: isHighlighted(r.id) ? `3px solid ${r.color}` : `2px dashed ${r.color}88`,
+              background: isHighlighted(r.id) ? r.color + "35" : r.color + "12",
               borderRadius: 8, cursor: "pointer", transition: "all 0.2s"
             }}
             title={r.desc}
