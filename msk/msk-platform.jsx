@@ -1866,9 +1866,11 @@ function generateQuestions(region, type) {
 
 // ─── SVG Anatomy Components ────────────────────────────────────────────────
 const ShoulderSVG = ({ layers }) => (
-  <svg viewBox="0 0 400 350" style={{ width: "100%", maxWidth: 420, display: "block", margin: "0 auto" }}>
-    <defs>
-      <radialGradient id="jointGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor={C.teal} stopOpacity="0.3"/><stop offset="100%" stopColor={C.teal} stopOpacity="0"/></radialGradient>
+  <div style={{ textAlign: "center" }}>
+    <img src="img/shoulder-grays-292.png" alt="Shoulder anatomy - Gray's Anatomy" 
+      style={{ width: "100%", maxWidth: 420, borderRadius: 12, background: "#fff", padding: 8, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }} />
+    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Gray's Anatomy: Shoulder joint showing humeral head, rotator cuff muscles, and glenoid cavity</p>
+  </div>);" cy="50%" r="50%"><stop offset="0%" stopColor={C.teal} stopOpacity="0.3"/><stop offset="100%" stopColor={C.teal} stopOpacity="0"/></radialGradient>
       <linearGradient id="boneGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#F5F0E8"/><stop offset="100%" stopColor="#E8DDD0"/></linearGradient>
       <linearGradient id="muscleGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#E88B8B"/><stop offset="100%" stopColor="#C76B6B"/></linearGradient>
     </defs>
@@ -1926,8 +1928,11 @@ const ShoulderSVG = ({ layers }) => (
 );
 
 const KneeSVG = ({ layers }) => (
-  <svg viewBox="0 0 350 400" style={{ width: "100%", maxWidth: 380, display: "block", margin: "0 auto" }}>
-    <defs>
+  <div style={{ textAlign: "center" }}>
+    <img src="img/knee-anatomy.jpg" alt="Knee anatomy - Wikimedia" 
+      style={{ width: "100%", maxWidth: 380, borderRadius: 12, background: "#fff", padding: 8, boxShadow: "0 2px 12px rgba(0,0,0,0.08)" }} />
+    <p style={{ fontSize: 12, color: "#666", marginTop: 8, fontFamily: FONT }}>Knee joint showing femur, tibia, fibula, patella, and ligaments (ACL, PCL, MCL, LCL)</p>
+  </div>);>
       <radialGradient id="kneeGlow" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor={C.mint} stopOpacity="0.25"/><stop offset="100%" stopColor={C.mint} stopOpacity="0"/></radialGradient>
       <linearGradient id="kneeBone" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#F2ECE4"/><stop offset="100%" stopColor="#E0D5C8"/></linearGradient>
     </defs>
