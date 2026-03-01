@@ -2834,9 +2834,287 @@ const MODULES = [
   { id: "brainRegions", name: "Brain Regions", icon: "🔬" },
   { id: "quiz", name: "Quiz Arena", icon: "📝" },
   { id: "boss", name: "Boss Battle", icon: "🏆" },
+  { id: "tractTrainer", name: "Tract Trainer", icon: "🎓" },
+  { id: "tractExplorer", name: "3D Explorer", icon: "🧊" },
 ];
 
-export default function NeuroLearnApp() {
+export default 
+// ─── Tract ID Trainer: Quiz on all tracts at all cross-section levels ───
+const TractIDTrainer = ({ addXp }) => {
+  const [level, setLevel] = useState("cervical");
+  const [mode, setMode] = useState("identify"); // identify | level
+  const [score, setScore] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [selected, setSelected] = useState([]);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [currentQ, setCurrentQ] = useState(0);
+  
+  // Cross-section levels with which tracts are visible/identifiable
+  const LEVELS = {
+    cervical: { 
+      name: "Cervical (C1-C8)", 
+      img: "img/sc-cervical-cross.svg",
+      tracts: ["dorsalColumns", "lissauer", "dorsalSCT", "spinothalamic", "lateralCST", "anteriorCST", "rubrospinal", "ventralSCT", "vestibulospinal", "medialReticulospinal", "lateralReticulospinal", "tectospinal", "cuneocerebellar"],
+      desc: "Largest cord area. Thick white matter, prominent ventral horns for upper limb."
+    },
+    cervicothoracic: { 
+      name: "Cervicothoracic (C8-T1)", 
+      img: "img/sc-all-levels-wellcome.jpg",
+      tracts: ["dorsalColumns", "lissauer", "dorsalSCT", "spinothalamic", "lateralCST", "anteriorCST", "rubrospinal", "ventralSCT", "vestibulospinal", "medialReticulospinal", "lateralReticulospinal", "tectospinal", "cuneocerebellar"],
+      desc: "Transition zone. Enlargement for lower brachial plexus."
+    },
+    thoracic: { 
+      name: "Thoracic (T1-T12)", 
+      img: "img/sc-thoracic-cross.svg",
+      tracts: ["dorsalColumns", "lissauer", "dorsalSCT", "spinothalamic", "lateralCST", "anteriorCST", "rubrospinal", "ventralSCT", "vestibulospinal", "medialReticulospinal", "lateralReticulospinal", "tectospinal"],
+      desc: "Smaller. Lateral horn present (sympathetic, T1-L2). Clarke's nucleus prominent."
+    },
+    lumbar: { 
+      name: "Lumbar (L1-S2)", 
+      img: "img/sc-lumbar-cross.svg",
+      tracts: ["dorsalColumns", "lissauer", "dorsalSCT", "spinothalamic", "lateralCST", "anteriorCST", "ventralSCT", "vestibulospinal", "medialReticulospinal"],
+      desc: "Enlargement for lower limb. Large ventral horns packed with motor neurons."
+    },
+    sacral: { 
+      name: "Sacral (S3-Co)", 
+      img: "img/sc-all-levels-wellcome.jpg",
+      tracts: ["dorsalColumns", "lissauer", "spinothalamic", "ventralSCT", "vestibulospinal"],
+      desc: "Smallest. Mostly gray matter. Autonomic nuclei prominent."
+    }
+  };
+  
+  const allTracts = Object.keys(TRACTS);
+  
+  const generateQuestion = () => {
+    const lvlKeys = Object.keys(LEVELS);
+    const randomLevel = lvlKeys[Math.floor(Math.random() * lvlKeys.length)];
+    const levelData = LEVELS[randomLevel];
+    const targetTract = levelData.tracts[Math.floor(Math.random() * levelData.tracts.length)];
+    
+    // Generate distractors
+    const available = allTracts.filter(t => t !== targetTract && levelData.tracts.includes(t));
+    const distractors = available.sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [...distractors, targetTract].sort(() => Math.random() - 0.5);
+    
+    setLevel(randomLevel);
+    setSelected([]);
+    setShowAnswer(false);
+    setCurrentQ(q => q + 1);
+    
+    return { level: randomLevel, target: targetTract, options };
+  };
+  
+  const [question, setQuestion] = useState(() => generateQuestion());
+  
+  const handleSelect = (tractId) => {
+    if (showAnswer) return;
+    setSelected([tractId]);
+  };
+  
+  const checkAnswer = () => {
+    setShowAnswer(true);
+    setTotal(t => t + 1);
+    if (selected[0] === question.target) {
+      setScore(s => s + 1);
+      addXp(10, question.target);
+    }
+  };
+  
+  const nextQuestion = () => {
+    setQuestion(generateQuestion());
+  };
+  
+  const currentLevel = LEVELS[level];
+  
+  return (
+    <div style={{ padding: 16 }}>
+      <h2 style={{ fontFamily: FONTS, fontSize: 22, fontWeight: 800, margin: "0 0 16px" }}>
+        🎓 Tract ID Trainer
+      </h2>
+      
+      {/* Level Selector */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+        {Object.entries(LEVELS).map(([key, lvl]) => (
+          <button key={key} onClick={() => setLevel(key)}
+            style={{
+              padding: "8px 14px", borderRadius: 8, border: level === key ? "2px solid #4A7A8A" : "1px solid #ddd",
+              background: level === key ? "#4A7A8A15" : "#fff", color: "#333", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: FONTS
+            }}>
+            {lvl.name}
+          </button>
+        ))}
+      </div>
+      
+      {/* Score */}
+      <div style={{ display: "flex", gap: 16, marginBottom: 16, fontSize: 14, fontWeight: 600, fontFamily: FONTS }}>
+        <span style={{ color: "#2E8B57" }}>✅ {score}/{total}</span>
+        <span>Question {currentQ}</span>
+      </div>
+      
+      {/* Cross-section Image */}
+      <div style={{ background: "#fff", borderRadius: 12, padding: 12, marginBottom: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+        <img src={currentLevel.img} alt={currentLevel.name} style={{ width: "100%", maxWidth: 350, borderRadius: 8, display: "block", margin: "0 auto" }} />
+        <p style={{ fontSize: 12, color: "#666", marginTop: 8, textAlign: "center", fontFamily: FONTS }}>{currentLevel.desc}</p>
+      </div>
+      
+      {/* Question */}
+      <div style={{ background: "#f8f9fa", borderRadius: 12, padding: 16, marginBottom: 16 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 12px", fontFamily: FONTS }}>
+          👆 Tap ALL tracts visible in this cross-section:
+        </p>
+        
+        {/* Tract Options Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+          {question.options.map(tractId => {
+            const tract = TRACTS[tractId];
+            const isSelected = selected.includes(tractId);
+            const isCorrect = showAnswer && tractId === question.target;
+            const isWrong = showAnswer && isSelected && tractId !== question.target;
+            
+            return (
+              <button key={tractId} onClick={() => handleSelect(tractId)} disabled={showAnswer}
+                style={{
+                  padding: "12px 8px", borderRadius: 10, 
+                  border: isCorrect ? "3px solid #2E8B57" : isWrong ? "3px solid #C94040" : isSelected ? `2px solid ${tract.color}` : "1px solid #ddd",
+                  background: isCorrect ? "#2E8B5715" : isWrong ? "#C9404015" : isSelected ? tract.color + "20" : "#fff",
+                  color: isCorrect ? "#2E8B57" : isWrong ? "#C94040" : "#333",
+                  fontSize: 12, fontWeight: 700, cursor: showAnswer ? "default" : "pointer", fontFamily: FONTS,
+                  transition: "all 0.2s"
+                }}>
+                {tract?.short || tractId}
+              </button>
+            );
+          })}
+        </div>
+        
+        {/* Answer Feedback */}
+        {showAnswer && (
+          <div style={{ marginTop: 12, padding: 12, background: question.target === selected[0] ? "#2E8B5715" : "#C9404015", borderRadius: 8, borderLeft: `4px solid ${question.target === selected[0] ? "#2E8B57" : "#C94040"}` }}>
+            <p style={{ fontWeight: 700, margin: 0, fontFamily: FONTS }}>
+              {question.target === selected[0] ? "✅ Correct!" : "❌ Not quite!"}
+            </p>
+            <p style={{ fontSize: 13, margin: "4px 0 0", fontFamily: FONTS }}>
+              {TRACTS[question.target]?.name}: {TRACTS[question.target]?.function}
+            </p>
+          </div>
+        )}
+      </div>
+      
+      {/* Actions */}
+      <div style={{ display: "flex", gap: 12 }}>
+        {!showAnswer ? (
+          <button onClick={checkAnswer} disabled={selected.length === 0}
+            style={{ flex: 1, padding: "14px 20px", borderRadius: 10, border: "none", background: selected.length === 0 ? "#ccc" : "#4A7A8A", color: "#fff", fontSize: 15, fontWeight: 700, cursor: selected.length === 0 ? "not-allowed" : "pointer", fontFamily: FONTS }}>
+            Check Answer
+          </button>
+        ) : (
+          <button onClick={nextQuestion}
+            style={{ flex: 1, padding: "14px 20px", borderRadius: 10, border: "none", background: "#4A7A8A", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: FONTS }}>
+            Next Question →
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ─── 3D Isometric Tract Explorer ───
+const TractExplorer3D = ({ addXp }) => {
+  const [highlighted, setHighlighted] = useState(null);
+  const [showPath, setShowPath] = useState(false);
+  
+  // Create longitudinal view showing tract paths through cord
+  const CORD_LENGTH = 300;
+  const levels = [
+    { y: 0, name: "Cervical", tracts: ["dorsalColumns", "lateralCST", "spinothalamic", "dorsalSCT"] },
+    { y: 100, name: "Thoracic", tracts: ["dorsalColumns", "lateralCST", "spinothalamic", "dorsalSCT", "lateralReticulospinal"] },
+    { y: 200, name: "Lumbar", tracts: ["dorsalColumns", "lateralCST", "spinothalamic", "ventralSCT"] },
+    { y: 300, name: "Sacral", tracts: ["spinothalamic", "ventralSCT"] }
+  ];
+  
+  // Tract paths through the cord (simplified)
+  const tractPaths = {
+    dorsalColumns: { color: "#5B8A9A", path: "M 60,0 L 60,300", label: "DCML - climbs to medulla" },
+    lateralCST: { color: "#7B68AE", path: "M 30,0 L 30,300", label: "LCST - descends to spinal cord" },
+    spinothalamic: { color: "#C97070", path: "M 90,50 L 90,300", label: "STT - ascends to thalamus" },
+    dorsalSCT: { color: "#6BAF7B", path: "M 45,100 L 45,300", label: "DSCT - climbs to cerebellum" },
+    ventralSCT: { color: "#5B9A8A", path: "M 75,150 L 75,300", label: "VSCT - to cerebellum" },
+    rubrospinal: { color: "#8B6914", path: "M 35,50 L 35,200", label: "RST - from red nucleus" },
+    vestibulospinal: { color: "#4A8A6A", path: "M 55,100 L 55,300", label: "VeST - from vestibular nucleus" },
+    medialReticulospinal: { color: "#6B7E23", path: "M 50,50 L 50,300", label: "MeRST - from reticular formation" },
+    lateralReticulospinal: { color: "#5B6E13", path: "M 40,80 L 40,250", label: "LRST - from reticular formation" },
+  };
+  
+  return (
+    <div style={{ padding: 16 }}>
+      <h2 style={{ fontFamily: FONTS, fontSize: 22, fontWeight: 800, margin: "0 0 16px" }}>
+        🧊 3D Isometric Tract Explorer
+      </h2>
+      
+      <p style={{ fontSize: 13, color: "#666", marginBottom: 16, fontFamily: FONTS }}>
+        See how tracts course through the spinal cord. Hover/click to highlight.
+      </p>
+      
+      {/* Longitudinal View SVG */}
+      <div style={{ background: "#fff", borderRadius: 12, padding: 16, marginBottom: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+        <svg viewBox="0 0 120 340" style={{ width: "100%", maxWidth: 200, display: "block", margin: "0 auto" }}>
+          {/* Spinal cord outline */}
+          <ellipse cx="60" cy="10" rx="25" ry="12" fill="#E8DDD0" stroke="#B8A898" strokeWidth="1"/>
+          <rect x="35" y="10" width="50" height="300" fill="#F5EDE3" stroke="#B8A898" strokeWidth="1"/>
+          <ellipse cx="60" cy="310" rx="20" ry="10" fill="#E8DDD0" stroke="#B8A898" strokeWidth="1"/>
+          
+          {/* Gray matter (simplified) */}
+          <path d="M 50,20 Q 55,160 50,300" stroke="#D4C4B0" strokeWidth="8" fill="none" opacity="0.5"/>
+          
+          {/* Level labels */}
+          <text x="5" y="25" fontSize="7" fill="#888">Cervical</text>
+          <text x="5" y="110" fontSize="7" fill="#888">Thoracic</text>
+          <text x="5" y="210" fontSize="7" fill="#888">Lumbar</text>
+          <text x="5" y="305" fontSize="7" fill="#888">Sacral</text>
+          
+          {/* Tract paths */}
+          {Object.entries(tractPaths).map(([id, data]) => (
+            <g key={id} onClick={() => setHighlighted(h => h === id ? null : id)} style={{ cursor: "pointer" }}>
+              <path d={data.path} stroke={data.color} strokeWidth={highlighted === id ? 6 : 3} fill="none" 
+                opacity={highlighted === id ? 1 : 0.5} strokeLinecap="round"/>
+              {highlighted === id && (
+                <text x="95" y={parseInt(data.path.match(/M \d+,(\d+)/)[1])} fontSize="8" fill={data.color} fontWeight="600">
+                  {TRACTS[id]?.short}
+                </text>
+              )}
+            </g>
+          ))}
+        </svg>
+      </div>
+      
+      {/* Tract Legend */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 6 }}>
+        {Object.entries(tractPaths).map(([id, data]) => (
+          <button key={id} onClick={() => setHighlighted(id)}
+            style={{
+              padding: "8px 10px", borderRadius: 8, border: highlighted === id ? `2px solid ${data.color}` : "1px solid #eee",
+              background: highlighted === id ? data.color + "15" : "#fff", textAlign: "left", cursor: "pointer", fontFamily: FONTS
+            }}>
+            <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 3, background: data.color, marginRight: 6 }}></span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: "#333" }}>{TRACTS[id]?.short}</span>
+          </button>
+        ))}
+      </div>
+      
+      {/* Info Panel */}
+      {highlighted && (
+        <div style={{ marginTop: 16, padding: 12, background: tractPaths[highlighted].color + "15", borderRadius: 10, borderLeft: `4px solid ${tractPaths[highlighted].color}` }}>
+          <p style={{ fontWeight: 700, margin: "0 0 4px", fontFamily: FONTS }}>{TRACTS[highlighted]?.name}</p>
+          <p style={{ fontSize: 12, margin: 0, color: "#666", fontFamily: FONTS }}>{tractPaths[highlighted].label}</p>
+          <p style={{ fontSize: 11, marginTop: 6, color: "#888", fontFamily: FONTS }}>{TRACTS[highlighted]?.function}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+function NeuroLearnApp() {
   const [module, setModule] = useState("dashboard");
   const [xp, setXp] = useState(() => { try { return parseInt(localStorage.getItem("neuro_xp")) || 0; } catch { return 0; } });
   const [streak, setStreak] = useState(() => { try { return parseInt(localStorage.getItem("neuro_streak")) || 0; } catch { return 0; } });
