@@ -2835,7 +2835,6 @@ const SpinalLevelsGallery = ({ selectedLevel, onSelect }) => {
 };
 
 
-const CitationFooter = ({ citationIds = [] }) => {
   if (!citationIds || citationIds.length === 0) return null;
   const citeMap = {};
   for (const c of CITATIONS) citeMap[c.id] = c;
