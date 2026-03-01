@@ -1,3 +1,4 @@
+import React from "react";
 /* Generated from shared Knowledge Base v1.0.0 (2026-02-28)
  * Source: med-learning-platform/shared/knowledge-base.json
  * Run: node build.js to regenerate
