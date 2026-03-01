@@ -2760,6 +2760,60 @@ const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactiv
   );
 };
 
+
+const SpinalLevelsGallery = ({ selectedLevel, onSelect }) => {
+  const levels = [
+    { id: "overview", label: "All Levels", img: "img/sc-all-levels-wellcome.jpg", 
+      desc: "Transverse sections at every spinal level showing progressive changes in gray/white matter ratio (Wellcome Collection)" },
+    { id: "cervical", label: "Cervical", img: "img/sc-cervical-cross.svg",
+      desc: "Cervical enlargement (C5-T1): Large oval shape, thick white matter, prominent ventral horns for upper limb innervation" },
+    { id: "cervical-gray", label: "Cervical (Gray\'s)", img: "img/sc-gray672-cervical.png",
+      desc: "Gray\'s Anatomy: Cervical spinal cord cross-section showing butterfly gray matter and surrounding white columns" },
+    { id: "thoracic", label: "Thoracic", img: "img/sc-thoracic-cross.svg",
+      desc: "Thoracic cord (T1-T12): Small, round shape with lateral horn (intermediolateral cell column) for sympathetic preganglionic neurons" },
+    { id: "thoracic-gray", label: "Thoracic (Gray\'s)", img: "img/sc-gray675-thoracic.png",
+      desc: "Gray\'s Anatomy: Thoracic cord showing Clarke\'s nucleus (nucleus dorsalis) and lateral horn" },
+    { id: "lumbar", label: "Lumbar", img: "img/sc-lumbar-cross.svg",
+      desc: "Lumbar enlargement (L1-S2): Large cross-section, massive ventral horns for lower limb innervation, relatively less white matter than cervical" },
+    { id: "labeled", label: "Labeled Anatomy", img: "img/sc-cross-section-labeled.jpg",
+      desc: "Complete labeled cross-section showing all anatomical structures: horns, columns, commissures, and surrounding meninges" },
+    { id: "tracts-asc", label: "Ascending Tracts", img: "img/sc-gray687-tracts.png",
+      desc: "Gray\'s Anatomy: Ascending (sensory) tracts including DCML, STT, and spinocerebellar tracts" },
+    { id: "tracts-desc", label: "Descending Tracts", img: "img/sc-gray688-tracts.png",
+      desc: "Gray\'s Anatomy: Descending (motor) tracts including lateral and anterior corticospinal tracts" },
+  ];
+  
+  const sel = selectedLevel || "overview";
+  const current = levels.find(l => l.id === sel) || levels[0];
+  
+  return (
+    <div style={{ marginTop: 20 }}>
+      <h3 style={{ fontFamily: "'Nunito'", fontWeight: 800, fontSize: 18, margin: "0 0 12px", color: "#1F2933" }}>
+        🔬 Spinal Cord Levels — Histology & Cross-Sections
+      </h3>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+        {levels.map(l => (
+          <button key={l.id} onClick={() => onSelect(l.id)}
+            style={{
+              padding: "6px 12px", borderRadius: 8, border: sel === l.id ? "2px solid #4A7A8A" : "1px solid #ddd",
+              background: sel === l.id ? "#4A7A8A15" : "#fff", color: sel === l.id ? "#4A7A8A" : "#555",
+              fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: FONTS, transition: "all 0.2s"
+            }}>
+            {l.label}
+          </button>
+        ))}
+      </div>
+      <div style={{ background: "#fff", borderRadius: 14, padding: 12, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+        <img src={current.img} alt={current.label}
+          style={{ width: "100%", maxWidth: current.id === "overview" ? 500 : 400, borderRadius: 10, display: "block", margin: "0 auto" }} />
+        <p style={{ fontSize: 13, color: "#555", textAlign: "center", margin: "10px 0 0", lineHeight: 1.5, fontFamily: FONTS }}>
+          {current.desc}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const BrainstemSVG = ({ level = "midbrain", highlight = null, size = 280 }) => {
   const levelColors = { midbrain: "#7B68AE", pons: "#4A7A8A", medulla: "#2E8B57" };
   return (
@@ -3059,6 +3113,8 @@ function TractModule({ addXp }) {
               {t.diseases.map((d, i) => <Tag key={i} color={t.color}>{d}</Tag>)}
             </div>
           </Card>
+      <SpinalLevelsGallery selectedLevel={scLevel} onSelect={setScLevel} />
+      
         </div>
       </div>
     </div>
@@ -3616,3 +3672,4 @@ function BossBattle({ addXp, xp }) {
     </div>
   );
 }
+  const [scLevel, setScLevel] = useState('overview');
