@@ -2725,7 +2725,7 @@ const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactiv
             boxShadow: "0 2px 12px rgba(0,0,0,0.08)"
           }} 
         />
-        {interactive && tractRegions.map(r => (
+        {tractRegions.map(r => (
           <div key={r.id} onClick={() => onClick && onClick(r.id)}
             style={{
               position: "absolute", left: r.x, top: r.y, width: r.w, height: r.h,
