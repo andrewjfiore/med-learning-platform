@@ -1,0 +1,258 @@
+[
+  {
+    "test": "kb_integrity/knowledge-base.json",
+    "category": "Schema",
+    "severity": "\ud83d\udfe1",
+    "finding": "Missing fields: ['citations']",
+    "suggestion": "Add required top-level fields to KB",
+    "passed": false
+  },
+  {
+    "test": "kb_quizbank/neuroQuizBank",
+    "category": "Schema",
+    "severity": "\ud83d\udfe2",
+    "finding": "neuroQuizBank: 144 items",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "kb_quizbank/mskQuizBank",
+    "category": "Schema",
+    "severity": "\ud83d\udfe2",
+    "finding": "mskQuizBank: 120 items",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "kb_integrity/citations.json",
+    "category": "Data",
+    "severity": "\ud83d\udfe1",
+    "finding": "File not found: /home/andrew/repos/med-learning-platform/msk/citations.json",
+    "suggestion": "Check file exists at expected path",
+    "passed": false
+  },
+  {
+    "test": "quiz_fuzz/empty_options",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for empty_options: correctIndex 1 out of range for 0 options",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/null_options",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for null_options: options must be array, got NoneType",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/correct_index_negative",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for correct_index_negative: correctIndex -1 out of range for 4 options",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/correct_index_out_of_bounds",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for correct_index_out_of_bounds: correctIndex 999 out of range for 4 options",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/correct_index_string",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for correct_index_string: correctIndex must be int, got str",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/correct_index_float",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for correct_index_float: correctIndex must be int, got float",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/xss_in_question",
+    "category": "XSS",
+    "severity": "\ud83d\udd34",
+    "finding": "XSS payload in quiz data processed without sanitization: <script>alert(\"XSS\")</script>",
+    "suggestion": "Sanitize all quiz text fields before rendering to DOM; use textContent not innerHTML",
+    "passed": false
+  },
+  {
+    "test": "quiz_fuzz/null_question",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for null_question: record() missing 1 required positional argument: 'suggestion'",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "quiz_fuzz/huge_options_array",
+    "category": "Performance",
+    "severity": "\ud83d\udfe1",
+    "finding": "10,000-option quiz item accepted",
+    "suggestion": "Limit options array length (e.g., max 10 per question)",
+    "passed": false
+  },
+  {
+    "test": "quiz_fuzz/1000_related_kb_ids",
+    "category": "Validation",
+    "severity": "\ud83d\udfe2",
+    "finding": "Proper error raised for 1000_related_kb_ids: record() missing 1 required positional argument: 'suggestion'",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/empty_string",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of empty_string: returns {}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/invalid_json",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of invalid_json: returns {}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/null",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of null: returns {}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/wrong_type",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of wrong_type: returns {}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/missing_progress_key",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of missing_progress_key: returns {'score': 0, 'attempts': 0, 'lastQuestion': -1}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/negative_score",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of negative_score: returns {'score': -999, 'attempts': -1, 'lastQuestion': -1}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/score_overflow",
+    "category": "Resilience",
+    "severity": "\ud83d\udfe2",
+    "finding": "Graceful handling of score_overflow: returns {'score': 1000000000000000, 'attempts': 1000000000000000, 'lastQuestion': -1}",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "localstorage/xss_in_progress",
+    "category": "XSS",
+    "severity": "\ud83d\udd34",
+    "finding": "XSS payload in progress data would execute if rendered to DOM",
+    "suggestion": "Sanitize all progress fields before rendering; use textContent",
+    "passed": false
+  },
+  {
+    "test": "localstorage/prototype_pollution",
+    "category": "Security",
+    "severity": "\ud83d\udd34",
+    "finding": "__proto__ key in localStorage data \u2014 potential prototype pollution",
+    "suggestion": "Filter __proto__/constructor keys when parsing state from localStorage",
+    "passed": false
+  },
+  {
+    "test": "answer_sequence/answer_same_question_1000_times",
+    "category": "Logic",
+    "severity": "\ud83d\udfe2",
+    "finding": "Processed 1000 answers, score: 0",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "answer_sequence/all_wrong_answers",
+    "category": "Logic",
+    "severity": "\ud83d\udfe2",
+    "finding": "Processed 100 answers, score: 0",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "answer_sequence/random_rapid_answers",
+    "category": "Logic",
+    "severity": "\ud83d\udfe2",
+    "finding": "Processed 1000 answers, score: 249",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "answer_sequence/answer_before_question_loads",
+    "category": "Logic",
+    "severity": "\ud83d\udfe2",
+    "finding": "Processed 0 answers, score: 0",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "answer_sequence/negative_question_index",
+    "category": "Logic",
+    "severity": "\ud83d\udfe2",
+    "finding": "Processed 0 answers, score: 0",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "build/build.js",
+    "category": "Build",
+    "severity": "\ud83d\udfe2",
+    "finding": "No obvious unsafe patterns",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "build/build-esbuild.js",
+    "category": "Build",
+    "severity": "\ud83d\udfe2",
+    "finding": "No obvious unsafe patterns",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "build/build-pages.js",
+    "category": "Build",
+    "severity": "\ud83d\udfe2",
+    "finding": "No obvious unsafe patterns",
+    "suggestion": "",
+    "passed": true
+  },
+  {
+    "test": "build/package.json",
+    "category": "Build",
+    "severity": "\ud83d\udfe2",
+    "finding": "No obvious unsafe patterns",
+    "suggestion": "",
+    "passed": true
+  }
+]
