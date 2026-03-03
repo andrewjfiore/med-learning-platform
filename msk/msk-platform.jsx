@@ -4,6 +4,24 @@
  */
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 
+/* ───────── SM-2 Spaced Repetition Engine (shared with neuro) ─────────── */
+function sm2Update(card, quality) {
+  const q = Math.min(5, Math.max(0, quality));
+  let { interval = 0, repetitions = 0, easeFactor = 2.5 } = card || {};
+  if (q >= 3) {
+    if (repetitions === 0) interval = 1;
+    else if (repetitions === 1) interval = 6;
+    else interval = Math.round(interval * easeFactor);
+    repetitions += 1;
+  } else { repetitions = 0; interval = 1; }
+  easeFactor = Math.max(1.3, easeFactor + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+  const dueDate = Date.now() + interval * 24 * 60 * 60 * 1000;
+  return { interval, repetitions, easeFactor, dueDate };
+}
+function getMskSmCards() { try { return JSON.parse(localStorage.getItem("msk_sm2") || "{}"); } catch { return {}; } }
+function saveMskSmCards(c) { try { localStorage.setItem("msk_sm2", JSON.stringify(c)); } catch {} }
+/* ─────────────────────────────────────────────────────────────────────── */
+
 /* ───────── CITATION FOOTER (Generated from shared KB) ───────── */
 const CITATIONS = [
   {
@@ -1971,6 +1989,12 @@ export default function MSKPlatform() {
     if (correct) { addXp(15); setStreak(s => s + 1); }
     else { setStreak(0); }
     trackWeakness(q.q.slice(0, 30), correct);
+    // SM-2 update
+    const cardKey = q.id || q.q.slice(0, 40);
+    const cards = getMskSmCards();
+    const quality = correct ? 4 : 2;
+    const updated = sm2Update(cards[cardKey], quality);
+    saveMskSmCards({ ...cards, [cardKey]: updated });
     setQuizState(prev => ({ ...prev, answered: idx, score: prev.score + (correct ? 1 : 0), showExplanation: true }));
   }, [quizState, addXp, trackWeakness]);
 
