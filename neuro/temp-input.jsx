@@ -5,6 +5,43 @@ import React from "react";
  */
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
+/* ───────── SM-2 Spaced Repetition Engine ─────────
+ * Based on SuperMemo-2 algorithm (Wozniak, 1987).
+ * Card state: { interval, repetitions, easeFactor, dueDate }
+ * Quality: 0-5 (0-2 = fail, 3-5 = pass)
+ * ─────────────────────────────────────────────── */
+function sm2Update(card, quality) {
+  const q = Math.min(5, Math.max(0, quality));
+  let { interval = 0, repetitions = 0, easeFactor = 2.5 } = card || {};
+  if (q >= 3) {
+    if (repetitions === 0) interval = 1;
+    else if (repetitions === 1) interval = 6;
+    else interval = Math.round(interval * easeFactor);
+    repetitions += 1;
+  } else {
+    repetitions = 0;
+    interval = 1;
+  }
+  easeFactor = Math.max(1.3, easeFactor + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+  const dueDate = Date.now() + interval * 24 * 60 * 60 * 1000;
+  return { interval, repetitions, easeFactor, dueDate };
+}
+
+function getSmCards() {
+  try { return JSON.parse(localStorage.getItem("neuro_sm2") || "{}"); } catch { return {}; }
+}
+function saveSmCards(cards) {
+  try { localStorage.setItem("neuro_sm2", JSON.stringify(cards)); } catch {} 
+}
+function getDueCards(allCards, quizBank) {
+  const now = Date.now();
+  return quizBank.filter(q => {
+    const card = allCards[q.id || q.q];
+    return !card || !card.dueDate || card.dueDate <= now;
+  });
+}
+/* ─────────────────────────────────────────────── */
+
 /* ───────── CITATION FOOTER (Generated from shared KB) ───────── */
 const CITATIONS = [
   {
@@ -2880,7 +2917,7 @@ export default function NeuroLearnApp() {
     <div style={{ fontFamily: "'DM Sans', 'Nunito', system-ui, sans-serif", color: COLORS.text, background: `linear-gradient(135deg, ${COLORS.bg} 0%, #f0ede6 100%)`, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
       {/* Top Bar */}
-      <header style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "10px 20px", display: "flex", alignItems: "center", gap: 16, position: "sticky", top: 0, zIndex: 100 }}>
+      <header style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "6px 12px", display: "flex", alignItems: "center", gap: 8, position: "sticky", top: 0, zIndex: 100 }}>
         <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", padding: 4 }}>☰</button>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 24 }}>🧠</span>
@@ -2927,7 +2964,7 @@ export default function NeuroLearnApp() {
 
 /* ─── Card Component ─── */
 const Card = ({ children, style = {}, onClick, hover = false }) => (
-  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 24, boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
+  <div onClick={onClick} style={{ background: "rgba(255,255,255,0.8)", borderRadius: 16, padding: 10, boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)", transition: "all 0.25s", cursor: onClick ? "pointer" : "default", ...(hover ? { ":hover": { transform: "translateY(-2px)" } } : {}), ...style }}>
     {children}
   </div>
 );
@@ -2962,15 +2999,18 @@ const Btn = ({ children, onClick, variant = "primary", style = {}, disabled = fa
 function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModule }) {
   const tractKeys = Object.keys(TRACTS);
   const maxMastery = Math.max(1, ...Object.values(masteryMap));
+  const smCards = useMemo(() => getSmCards(), []);
+  const dueCount = useMemo(() => getDueCards(smCards, QUIZ_BANK).length, [smCards]);
+  const reviewedCount = Object.keys(smCards).length;
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
       <div>
         <h1 style={{ fontSize: 28, fontWeight: 800, fontFamily: "'Nunito',sans-serif", margin: 0, letterSpacing: "-0.5px" }}>Welcome back, Andrew 👋</h1>
         <p style={{ color: COLORS.textLight, margin: "6px 0 0", fontSize: 14.5 }}>Keep building your neuroanatomy mastery for Step 1!</p>
       </div>
 
       {/* Stats Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, fontSize: 10 }}>
         <Card style={{ background: `linear-gradient(135deg, ${COLORS.teal}44, ${COLORS.teal}11)` }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textLight, marginBottom: 4 }}>LEVEL</div>
           <div style={{ fontSize: 20, fontWeight: 800, fontFamily: "'Nunito'" }}>{level.name}</div>
@@ -2989,10 +3029,24 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
         </Card>
       </div>
 
+      {/* SRS Status Card */}
+      <Card style={{ background: dueCount > 0 ? `linear-gradient(135deg, ${COLORS.teal}22, ${COLORS.teal}08)` : `linear-gradient(135deg, ${COLORS.success}22, ${COLORS.success}08)`, cursor: "pointer" }} onClick={() => setModule("quiz")}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>🗓 Spaced Repetition Review</div>
+            {dueCount > 0
+              ? <div style={{ fontSize: 13, color: COLORS.textLight }}><strong style={{ color: COLORS.accentDark }}>{dueCount}</strong> card{dueCount !== 1 ? "s" : ""} due today · {reviewedCount}/{QUIZ_BANK.length} cards seen</div>
+              : <div style={{ fontSize: 13, color: COLORS.success }}>🎉 All caught up! {reviewedCount} cards reviewed.</div>
+            }
+          </div>
+          <div style={{ fontSize: 28 }}>{dueCount > 0 ? "📋" : "✅"}</div>
+        </div>
+      </Card>
+
       {/* Mastery Heat Map */}
       <Card>
         <h3 style={{ margin: "0 0 16px", fontFamily: "'Nunito'", fontSize: 16, fontWeight: 700 }}>🗺️ Mastery Heat Map</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 3 }}>
           {tractKeys.map(k => {
             const val = masteryMap[k] || 0;
             const intensity = maxMastery > 0 ? val / maxMastery : 0;
@@ -3018,10 +3072,10 @@ function Dashboard({ xp, level, nextLevel, progress, streak, masteryMap, setModu
       {/* Quick Start */}
       <div>
         <h3 style={{ fontFamily: "'Nunito'", fontSize: 16, fontWeight: 700, marginBottom: 12 }}>🚀 Quick Start</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
           {MODULES.filter(m => m.id !== "dashboard").map(m => (
-            <Card key={m.id} onClick={() => setModule(m.id)} style={{ cursor: "pointer", padding: "18px 20px", display: "flex", alignItems: "center", gap: 12, transition: "transform 0.2s, box-shadow 0.2s" }}>
-              <span style={{ fontSize: 28 }}>{m.icon}</span>
+            <Card key={m.id} onClick={() => setModule(m.id)} style={{ cursor: "pointer", padding: "12px 14px", display: "flex", alignItems: "center", gap: 12, transition: "transform 0.2s, box-shadow 0.2s" }}>
+              <span style={{ fontSize: 22 }}>{m.icon}</span>
               <span style={{ fontWeight: 700, fontSize: 14 }}>{m.name}</span>
             </Card>
           ))}
@@ -3441,7 +3495,21 @@ function QuizArena({ addXp, setStreak }) {
   const [showExplain, setShowExplain] = useState(false);
   const [timer, setTimer] = useState(30);
   const [timerActive, setTimerActive] = useState(true);
-  const [shuffled] = useState(() => [...QUIZ_BANK].sort(() => Math.random() - 0.5));
+  const [smCards, setSmCards] = useState(() => getSmCards());
+  const [mode, setMode] = useState("srs"); // "srs" | "random"
+
+  // SRS mode: prioritize due cards; random mode: full shuffle
+  const shuffled = useMemo(() => {
+    if (mode === "srs") {
+      const due = getDueCards(smCards, QUIZ_BANK);
+      if (due.length === 0) return [...QUIZ_BANK].sort(() => Math.random() - 0.5);
+      return [...due].sort(() => Math.random() - 0.5);
+    }
+    return [...QUIZ_BANK].sort(() => Math.random() - 0.5);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  const dueCount = useMemo(() => getDueCards(smCards, QUIZ_BANK).length, [smCards]);
 
   const q = shuffled[qIdx % shuffled.length];
 
@@ -3458,12 +3526,20 @@ function QuizArena({ addXp, setStreak }) {
     setShowExplain(true);
     setTimerActive(false);
     setTotal(t => t + 1);
-    if (idx === q.correct) {
+    const correct = idx === q.correct;
+    if (correct) {
       const bonus = timer > 20 ? 25 : timer > 10 ? 20 : 15;
       setScore(s => s + 1);
       addXp(bonus, q.tract);
       setStreak(s => s + 1);
     }
+    // Update SM-2 card state (quality: 5=fast correct, 4=correct, 3=slow correct, 2=wrong)
+    const quality = correct ? (timer > 20 ? 5 : timer > 10 ? 4 : 3) : 2;
+    const cardKey = q.id || q.q;
+    const updated = sm2Update(smCards[cardKey], quality);
+    const newCards = { ...smCards, [cardKey]: updated };
+    setSmCards(newCards);
+    saveSmCards(newCards);
   };
 
   const nextQ = () => {
@@ -3482,6 +3558,21 @@ function QuizArena({ addXp, setStreak }) {
           <span>Score: <strong>{score}/{total}</strong></span>
           <span style={{ color: timer <= 10 ? COLORS.error : COLORS.text, fontWeight: 700 }}>⏱ {timer}s</span>
         </div>
+      </div>
+
+      {/* SRS Mode Toggle */}
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        <button onClick={() => setMode("srs")} style={{ padding: "6px 14px", borderRadius: 20, border: "none", background: mode === "srs" ? COLORS.teal : "rgba(0,0,0,0.06)", color: mode === "srs" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 12.5, cursor: "pointer" }}>
+          🗓 Spaced Repetition
+        </button>
+        <button onClick={() => setMode("random")} style={{ padding: "6px 14px", borderRadius: 20, border: "none", background: mode === "random" ? COLORS.teal : "rgba(0,0,0,0.06)", color: mode === "random" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 12.5, cursor: "pointer" }}>
+          🔀 Random
+        </button>
+        {mode === "srs" && (
+          <span style={{ fontSize: 12, color: COLORS.textLight }}>
+            {dueCount === 0 ? "🎉 All cards reviewed — great work!" : `📋 ${dueCount} card${dueCount !== 1 ? "s" : ""} due for review`}
+          </span>
+        )}
       </div>
 
       <ProgressBar value={timer} max={30} color={timer <= 10 ? COLORS.error : COLORS.xpBar} height={6} />
@@ -3515,6 +3606,11 @@ function QuizArena({ addXp, setStreak }) {
             <div style={{ fontWeight: 700, marginBottom: 6, color: selected === q.correct ? COLORS.success : COLORS.error }}>
               {selected === q.correct ? "✅ Correct!" : selected === -1 ? "⏰ Time's up!" : "❌ Incorrect"}
               {selected === q.correct && <span style={{ marginLeft: 8, fontSize: 12 }}>+{timer > 20 ? 25 : timer > 10 ? 20 : 15} XP</span>}
+              {mode === "srs" && smCards[q.id || q.q] && (
+                <span style={{ marginLeft: 10, fontSize: 11, color: COLORS.textLight, fontWeight: 500 }}>
+                  📅 Next review in {smCards[q.id || q.q].interval}d
+                </span>
+              )}
             </div>
             <p style={{ fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>{q.explain}</p>
           </div>
