@@ -6,20 +6,24 @@ const KB = JSON.parse(fs.readFileSync('shared/knowledge-base.json', 'utf8'));
 
 function buildApp(jsxPath, title, outputName) {
   const jsx = fs.readFileSync(jsxPath, 'utf8');
-  
+
+  // Detect the exported component name (e.g. "export default function NeuroLearnApp")
+  const exportMatch = jsx.match(/export\s+default\s+function\s+(\w+)/);
+  const componentName = exportMatch ? exportMatch[1] : 'App';
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'DM Sans', 'Nunito', 'Quicksand', -apple-system, sans-serif; background: #f8f9fa; color: #222; }
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Nunito:wght@400;600;700&display=swap');
   </style>
 </head>
 <body>
@@ -27,6 +31,7 @@ function buildApp(jsxPath, title, outputName) {
   <script type="text/babel">
 ${jsx}
 
+const App = ${componentName};
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
