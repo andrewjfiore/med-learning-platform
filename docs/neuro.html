@@ -3183,6 +3183,48 @@ function TractModule({ addXp }) {
           </Card>
         </div>
       </div>
+
+      {/* Reference Diagrams Section */}
+      <Card>
+        <h3 style={{ margin: "0 0 16px", fontFamily: "'Nunito'", fontSize: 18, fontWeight: 800 }}>📐 Cross-Section Reference Diagrams</h3>
+        <p style={{ fontSize: 13, color: COLORS.textLight, margin: "0 0 16px" }}>All tracts color-coded: <span style={{ color: "#4A90D9", fontWeight: 700 }}>■ ascending (sensory)</span> &nbsp; <span style={{ color: "#D94A4A", fontWeight: 700 }}>■ descending (motor)</span></p>
+        
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ textAlign: "center" }}>
+            <img src="img/spinal-tracts-labeled.svg" alt="All spinal cord tracts labeled" style={{ width: "100%", maxWidth: 500, borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", background: "#fff", padding: 8 }} />
+            <div style={{ fontSize: 12, fontWeight: 600, marginTop: 8, color: COLORS.textLight }}>Complete Tract Map (All Tracts)</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <img src="img/spinal-gray-matter.svg" alt="Gray matter regions (Rexed laminae)" style={{ width: "100%", maxWidth: 500, borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", background: "#fff", padding: 8 }} />
+            <div style={{ fontSize: 12, fontWeight: 600, marginTop: 8, color: COLORS.textLight }}>Gray Matter Regions (Rexed Laminae)</div>
+          </div>
+        </div>
+
+        <h4 style={{ margin: "20px 0 12px", fontFamily: "'Nunito'", fontWeight: 700 }}>🔬 Level Comparison</h4>
+        <p style={{ fontSize: 13, color: COLORS.textLight, margin: "0 0 12px" }}>Key differences: Cervical has the most white matter (all tracts present). Thoracic has lateral horn (sympathetics). Lumbar enlargement has large ventral horns. Sacral has highest gray:white ratio.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ textAlign: "center" }}>
+            <img src="img/spinal-cervical.svg" alt="Cervical spinal cord cross-section" style={{ width: "100%", maxWidth: 300, borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", background: "#fff", padding: 8 }} />
+            <div style={{ fontSize: 12, fontWeight: 700, marginTop: 8 }}>Cervical (C5-T1)</div>
+            <div style={{ fontSize: 11, color: COLORS.textLight }}>Largest section • Most white matter • Both fasciculus gracilis + cuneatus</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <img src="img/spinal-fasciculi-gray672.png" alt="Thoracic spinal cord fasciculi" style={{ width: "100%", maxWidth: 300, borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", background: "#fff", padding: 8 }} />
+            <div style={{ fontSize: 12, fontWeight: 700, marginTop: 8 }}>Thoracic</div>
+            <div style={{ fontSize: 11, color: COLORS.textLight }}>Small gray matter • Lateral horn (IML) T1-L2 • Clarke's nucleus (DSCT)</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <img src="img/spinal-lumbar.svg" alt="Lumbar spinal cord cross-section" style={{ width: "100%", maxWidth: 300, borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", background: "#fff", padding: 8 }} />
+            <div style={{ fontSize: 12, fontWeight: 700, marginTop: 8 }}>Lumbar (L1-S2)</div>
+            <div style={{ fontSize: 11, color: COLORS.textLight }}>Large ventral horns • Less white matter • Only fasciculus gracilis</div>
+          </div>
+          <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(0,0,0,0.02)", borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)" }}>
+            <div style={{ fontSize: 40, marginBottom: 8 }}>🦴</div>
+            <div style={{ fontSize: 12, fontWeight: 700 }}>Sacral (S2-S4)</div>
+            <div style={{ fontSize: 11, color: COLORS.textLight, lineHeight: 1.5 }}>Smallest diameter • Highest gray:white ratio • Very little white matter • Parasympathetic nucleus (S2-S4) • Onuf's nucleus (sphincter control)</div>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }
