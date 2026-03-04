@@ -991,6 +991,30 @@ const BRAIN_REGIONS = {
       }
     ],
     "clinical": "Parkinson's: SNc loss → tremor, rigidity, bradykinesia. Huntington's: caudate atrophy → chorea. Hemiballismus: contralateral STN lesion."
+  },
+  "cerebellum": {
+    "name": "Cerebellum",
+    "color": "#6BAF7B",
+    "areas": [
+      { "name": "Cerebrocerebellum (Lateral)", "detail": "Largest region. Planning/coordination of limb movements. Input from cortex via middle cerebellar peduncle. Lesion → intention tremor, dysmetria, dysdiadochokinesia." },
+      { "name": "Spinocerebellum (Vermis/Paravermal)", "detail": "Vermis: trunk/proximal limb coordination, gait. Paravermis: distal limb coordination. Receives proprioception via DSCT/VSCT. Lesion → truncal ataxia (vermis), limb ataxia (paravermal)." },
+      { "name": "Vestibulocerebellum (Flocculonodular)", "detail": "Balance and vestibulo-ocular reflex. Input from vestibular nuclei via inferior cerebellar peduncle. Lesion → nystagmus, vertigo, truncal ataxia, wide-based gait." },
+      { "name": "Deep Cerebellar Nuclei", "detail": "Dentate (largest, lateral → planning), Emboliform + Globose (interposed → limb coordination), Fastigial (medial → balance/gait). Remember: Don't Eat Greasy Food." },
+      { "name": "Cerebellar Peduncles", "detail": "Superior (SCP): output to red nucleus/thalamus. Middle (MCP): largest, input from contralateral cortex. Inferior (ICP): input from spinal cord/vestibular." }
+    ],
+    "clinical": "Cerebellar lesions are IPSILATERAL (unlike cerebral). Alcohol → vermis atrophy → gait ataxia. Medulloblastoma in kids → 4th ventricle compression. Friedrich's ataxia → spinocerebellar degeneration."
+  },
+  "spinalCord": {
+    "name": "Spinal Cord",
+    "color": "#C97070",
+    "areas": [
+      { "name": "Dorsal Horn (Laminae I-VI)", "detail": "Sensory processing. Substantia gelatinosa (II): pain modulation. Nucleus proprius (III-IV): crude touch. Clarke's nucleus (VII, C8-L2): DSCT origin." },
+      { "name": "Ventral Horn (Lamina IX)", "detail": "LMN cell bodies. Medial: axial/proximal muscles. Lateral: distal limb muscles (only in enlargements). Alpha motor neurons → extrafusal. Gamma → intrafusal (spindle)." },
+      { "name": "Lateral Horn (T1-L2)", "detail": "Intermediolateral cell column (IML). Sympathetic preganglionic neurons. Only present T1-L2. Lesion → ipsilateral Horner syndrome (T1)." },
+      { "name": "Central Canal & Commissures", "detail": "Anterior white commissure: where STT fibers decussate. Syringomyelia → central canal dilation → bilateral cape-like pain/temp loss (suspended sensory level)." },
+      { "name": "Conus Medullaris & Cauda Equina", "detail": "Conus: cord terminates L1-L2 (adult). S2-S4 parasympathetics. Cauda equina: nerve roots below conus. Conus lesion → symmetric, sudden. Cauda equina → asymmetric, gradual." }
+    ],
+    "clinical": "Brown-Séquard (hemisection): ipsilateral motor+proprioception loss, contralateral pain/temp loss. Anterior cord: bilateral motor+pain/temp loss, preserved proprioception. Subacute combined degeneration (B12): dorsal columns + lateral CST."
   }
 };
 
@@ -2842,10 +2866,11 @@ const SpinalCordSVG = ({ highlight = [], lesionRegions = [], onClick, interactiv
 
 const BrainstemSVG = ({ level = "midbrain", highlight = null, size = 280 }) => {
   const levelColors = { midbrain: "#7B68AE", pons: "#4A7A8A", medulla: "#2E8B57" };
+  const levelImgs = { midbrain: "img/brainstem-midbrain.png", pons: "img/brainstem-pons.png", medulla: "img/brainstem-medulla.png" };
   return (
     <div style={{ textAlign: "center" }}>
       <img 
-        src="img/brainstem.png" 
+        src={levelImgs[level] || "img/brainstem.png"} 
         alt={`Brainstem cross-section at ${level} level`}
         style={{ 
           width: size, 
@@ -3196,7 +3221,7 @@ function CrossSectionModule({ addXp }) {
           <>
             <p style={{ fontSize: 15, fontWeight: 600, marginBottom: 8 }}>Click on the <strong style={{ color: TRACTS[targetTract].color }}>{TRACTS[targetTract].name}</strong> in the cross section below:</p>
             <div style={{ display: "flex", justifyContent: "center", margin: "16px 0" }}>
-              <SpinalCordSVG highlight={[]} interactive onClick={(key) => checkAnswer(key)} size={340} showLabels={false} />
+              <SpinalCordSVG highlight={[]} interactive onClick={(key) => checkAnswer(key)} size={480} showLabels={false} />
             </div>
             <p style={{ fontSize: 12, color: COLORS.textLight, textAlign: "center" }}>Click the correct tract region in the spinal cord cross section</p>
           </>
@@ -3231,28 +3256,77 @@ function CrossSectionModule({ addXp }) {
 function LesionSimulator({ addXp }) {
   const [selected, setSelected] = useState(null);
   const [showDeficits, setShowDeficits] = useState(false);
+  const [simMode, setSimMode] = useState("lesion"); // "lesion" → deficits | "deficits" → lesion
+  const [guess, setGuess] = useState(null);
+  const [revealAnswer, setRevealAnswer] = useState(false);
   const lesionKeys = Object.keys(LESIONS);
 
   const handleSelect = (key) => {
     setSelected(key);
     setShowDeficits(false);
+    setGuess(null);
+    setRevealAnswer(false);
+  };
+
+  // For reverse mode: pick random lesion on mount
+  const startReverse = () => {
+    const rand = lesionKeys[Math.floor(Math.random() * lesionKeys.length)];
+    setSelected(rand);
+    setGuess(null);
+    setRevealAnswer(false);
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <h2 style={{ fontFamily: "'Nunito'", margin: 0, fontSize: 24, fontWeight: 800 }}>⚡ Lesion Simulator</h2>
-      <p style={{ color: COLORS.textLight, margin: 0, fontSize: 14 }}>Select a lesion pattern to see the affected regions and predicted deficits.</p>
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <button onClick={() => { setSimMode("lesion"); setSelected(null); }} style={{ padding: "5px 12px", borderRadius: 16, border: "none", background: simMode === "lesion" ? COLORS.error : "rgba(0,0,0,0.06)", color: simMode === "lesion" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 11.5, cursor: "pointer" }}>
+          Lesion → Deficits
+        </button>
+        <button onClick={() => { setSimMode("deficits"); startReverse(); }} style={{ padding: "5px 12px", borderRadius: 16, border: "none", background: simMode === "deficits" ? COLORS.accent : "rgba(0,0,0,0.06)", color: simMode === "deficits" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 11.5, cursor: "pointer" }}>
+          Deficits → Lesion
+        </button>
+      </div>
+      <p style={{ color: COLORS.textLight, margin: 0, fontSize: 14 }}>{simMode === "lesion" ? "Select a lesion pattern to see the affected regions and predicted deficits." : "Given these deficits, identify the lesion pattern."}</p>
 
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {simMode === "lesion" && <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {lesionKeys.map(k => (
           <button key={k} onClick={() => handleSelect(k)}
             style={{ padding: "8px 16px", borderRadius: 10, border: selected === k ? `2px solid ${COLORS.error}` : "2px solid transparent", background: selected === k ? COLORS.error + "15" : "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 12.5, cursor: "pointer", fontFamily: FONTS, transition: "all 0.2s" }}>
             {LESIONS[k].name}
           </button>
         ))}
-      </div>
+      </div>}
 
-      {selected && (
+      {simMode === "deficits" && selected && !revealAnswer && (
+        <Card>
+          <h4 style={{ margin: "0 0 12px", fontWeight: 700 }}>These deficits are observed:</h4>
+          {LESIONS[selected].deficits.map((d, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, padding: "6px 10px", background: "rgba(0,0,0,0.02)", borderRadius: 8 }}>
+              <Tag color={d.side === "spared" ? COLORS.success : COLORS.error}>{d.side}</Tag>
+              <span style={{ fontSize: 13 }}><strong>{d.type.replace(/_/g, " ")}</strong>: {d.detail}</span>
+            </div>
+          ))}
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 12 }}>
+            {lesionKeys.map(k => (
+              <button key={k} onClick={() => { setGuess(k); setRevealAnswer(true); if (k === selected) addXp(20, "lesions"); }}
+                style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 12, cursor: "pointer", fontFamily: FONTS }}>
+                {LESIONS[k].name}
+              </button>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {simMode === "deficits" && revealAnswer && (
+        <Card style={{ background: guess === selected ? COLORS.success + "15" : COLORS.error + "15" }}>
+          <p style={{ fontWeight: 700, fontSize: 16, margin: "0 0 8px" }}>{guess === selected ? "✅ Correct! +20 XP" : "❌ Incorrect"}</p>
+          <p style={{ fontSize: 14, margin: "0 0 12px" }}>The answer is <strong>{LESIONS[selected].name}</strong> ({LESIONS[selected].aka}): {LESIONS[selected].description}</p>
+          <Btn onClick={startReverse}>Next Challenge →</Btn>
+        </Card>
+      )}
+
+      {simMode === "lesion" && selected && (
         <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 24, alignItems: "start" }}>
           <Card style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <SpinalCordSVG highlight={[]} lesionRegions={LESIONS[selected].regions} size={300} />
@@ -3303,7 +3377,7 @@ function AutonomicModule({ addXp }) {
       <div style={{ display: "flex", gap: 8 }}>
         <Btn onClick={() => { setTab("sympathetic"); setShowReceptors(false); }} variant={tab === "sympathetic" ? "primary" : "ghost"}>Sympathetic</Btn>
         <Btn onClick={() => { setTab("parasympathetic"); setShowReceptors(false); }} variant={tab === "parasympathetic" ? "primary" : "ghost"}>Parasympathetic</Btn>
-        <Btn onClick={() => { setShowReceptors(!showReceptors); addXp(5, "autonomic"); }} variant={showReceptors ? "secondary" : "ghost"}>Receptors</Btn>
+        <Btn onClick={() => { setShowReceptors(!showReceptors); addXp(5, "autonomic"); }} variant={showReceptors ? "primary" : "ghost"}>Receptors</Btn>
       </div>
 
       {!showReceptors ? (
@@ -3513,6 +3587,7 @@ function QuizArena({ addXp, setStreak }) {
   const [timerActive, setTimerActive] = useState(true);
   const [smCards, setSmCards] = useState(() => getSmCards());
   const [mode, setMode] = useState("srs"); // "srs" | "random"
+  const [direction, setDirection] = useState("present"); // "present" (presentation→dx) | "dx" (dx→presentation)
 
   // SRS mode: prioritize due cards; random mode: full shuffle
   const shuffled = useMemo(() => {
@@ -3590,12 +3665,23 @@ function QuizArena({ addXp, setStreak }) {
           </span>
         )}
       </div>
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: COLORS.textLight }}>Mode:</span>
+        <button onClick={() => setDirection("present")} style={{ padding: "5px 12px", borderRadius: 16, border: "none", background: direction === "present" ? COLORS.accent : "rgba(0,0,0,0.06)", color: direction === "present" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 11.5, cursor: "pointer" }}>
+          Presentation → Dx
+        </button>
+        <button onClick={() => setDirection("dx")} style={{ padding: "5px 12px", borderRadius: 16, border: "none", background: direction === "dx" ? COLORS.accent : "rgba(0,0,0,0.06)", color: direction === "dx" ? "#fff" : COLORS.text, fontWeight: 600, fontSize: 11.5, cursor: "pointer" }}>
+          Dx → Presentation
+        </button>
+      </div>
 
       <ProgressBar value={timer} max={30} color={timer <= 10 ? COLORS.error : COLORS.xpBar} height={6} />
 
       <Card>
         <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textLight, marginBottom: 8 }}>QUESTION {(qIdx % shuffled.length) + 1} OF {shuffled.length}</div>
-        <p style={{ fontSize: 15.5, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>{q.q}</p>
+        <p style={{ fontSize: 15.5, lineHeight: 1.7, fontWeight: 500, marginBottom: 20 }}>
+          {direction === "dx" ? (q.explain ? "What presentation would you expect from: " + q.opts[q.correct] + "?" : q.q) : q.q}
+        </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {q.opts.map((opt, i) => {
