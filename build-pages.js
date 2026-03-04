@@ -5,11 +5,19 @@ const path = require('path');
 const KB = JSON.parse(fs.readFileSync('shared/knowledge-base.json', 'utf8'));
 
 function buildApp(jsxPath, title, outputName) {
-  const jsx = fs.readFileSync(jsxPath, 'utf8');
+  let jsx = fs.readFileSync(jsxPath, 'utf8');
 
   // Detect the exported component name (e.g. "export default function NeuroLearnApp")
   const exportMatch = jsx.match(/export\s+default\s+function\s+(\w+)/);
   const componentName = exportMatch ? exportMatch[1] : 'App';
+
+  // Strip ES module syntax — React is loaded as a UMD global via CDN, so
+  // import/export would cause Babel standalone to emit require()/exports
+  // calls that don't exist in the browser.
+  jsx = jsx
+    .replace(/^import\s*\{([^}]+)\}\s*from\s*['"]react['"];?\s*$/m,
+      'const {$1} = React;')
+    .replace(/^export\s+default\s+function\s+/m, 'function ');
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -31,8 +39,7 @@ function buildApp(jsxPath, title, outputName) {
   <script type="text/babel">
 ${jsx}
 
-const App = ${componentName};
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(${componentName}));
   </script>
 </body>
 </html>`;
